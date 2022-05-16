@@ -87,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("TYPEEXO", item.getItemId());
             startActivity(intent);
         }
+
+        if(item.getItemId() == R.id.nav_exerciceDragging){
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
         return true;
     }
 }

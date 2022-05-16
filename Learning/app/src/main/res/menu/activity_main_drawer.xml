@@ -25,6 +25,10 @@
             android:id="@+id/nav_exerciceSorting"
             android:icon="@drawable/ic_settings"
             android:title="Exercice sorting" />
+        <item
+            android:id="@+id/nav_exerciceDragging"
+            android:icon="@drawable/ic_settings"
+            android:title="Exercice dragging" />
     </group>
 
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.learning.R;
+import com.example.learning.fragment.DraggingFragment;
 import com.example.learning.fragment.LearnFragment;
 import com.example.learning.fragment.SortingFragment;
 import com.example.learning.fragment.WritingFragment;
@@ -28,12 +29,14 @@ public class ExerciceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercice);
         FragmentManager fragmentManager = getSupportFragmentManager();
         final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         if(typeexo == R.id.nav_exerciceWriting){
             myFragment = new WritingFragment();
         }
         if(typeexo == R.id.nav_exerciceSorting){
             myFragment = new SortingFragment();
+        }
+        if(typeexo == R.id.nav_exerciceDragging){
+            myFragment = new DraggingFragment();
         }
 
         Bundle bundle = new Bundle();
