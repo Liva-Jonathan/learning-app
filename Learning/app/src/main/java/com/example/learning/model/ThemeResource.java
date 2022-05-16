@@ -18,6 +18,12 @@ public class ThemeResource {
         setResOrder(resOrder);
     }
 
+    public ThemeResource(String name, String image, String voice) {
+        setName(name);
+        setImage(image);
+        setVoice(voice);
+    }
+
     public int getIdThemeResource() {
         return idThemeResource;
     }

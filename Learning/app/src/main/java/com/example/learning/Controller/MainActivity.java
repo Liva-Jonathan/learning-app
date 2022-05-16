@@ -1,4 +1,4 @@
-package com.example.learning.Controller;
+package com.example.learning.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        //NavigationUI.setupWithNavController(navigationView, navController);
 
         init();
     }
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setDb(DatabaseManager db) {
         this.db = db;
-
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Log.println(Log.VERBOSE, "CLICK MENU", "=========YES");
