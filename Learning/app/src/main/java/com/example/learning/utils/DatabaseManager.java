@@ -1,12 +1,12 @@
-package com.example.learning.Utils;
+package com.example.learning.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.learning.Model.Theme;
-import com.example.learning.Model.ThemeResource;
+import com.example.learning.model.Theme;
+import com.example.learning.model.ThemeResource;
 
 import java.util.ArrayList;
 import java.util.List;

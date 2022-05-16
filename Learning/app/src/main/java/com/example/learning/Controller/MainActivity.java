@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.Menu;
 
 import com.example.learning.R;
-import com.example.learning.Utils.DatabaseManager;
+import com.example.learning.utils.DatabaseManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 

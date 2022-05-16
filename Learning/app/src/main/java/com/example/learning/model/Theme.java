@@ -1,4 +1,4 @@
-package com.example.learning.Model;
+package com.example.learning.model;
 
 public class Theme {
 
