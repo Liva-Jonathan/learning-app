@@ -12,15 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.learning.R;
 import com.example.learning.model.Theme;
+import com.example.learning.model.ThemeResource;
 
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerAdapter";
-    List<Theme> themeList;
+    List<ThemeResource> themeList;
 
-    public RecyclerAdapter(List<Theme> themeList) {
+    public RecyclerAdapter(List<ThemeResource> themeList) {
         this.themeList = themeList;
     }
 
@@ -35,7 +36,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.textView.setText(themeList.get(position).getLibelle());
+        holder.textView.setText(themeList.get(position).getName());
     }
 
     @Override
@@ -58,7 +59,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(view.getContext(), themeList.get(getAdapterPosition()).getLibelle(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), themeList.get(getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
         }
     }
 }

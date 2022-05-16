@@ -17,6 +17,7 @@ import android.widget.Button;
 
 import com.example.learning.R;
 import com.example.learning.model.Theme;
+import com.example.learning.model.ThemeResource;
 import com.example.learning.utils.RecyclerAdapter;
 
 import java.util.ArrayList;
@@ -28,18 +29,18 @@ public class SortingFragment extends Fragment {
     RecyclerAdapter recyclerAdapter;
     Button submitSorting;
 
-    List<Theme> themeList;
+    List<ThemeResource> themeList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_sorting, container, false);
 
-        themeList = new ArrayList<Theme>();
-        themeList.add(new Theme("Un", "chiffre_un", "chiffre_un"));
-        themeList.add(new Theme("Quatre", "chiffre_quatre", "chiffre_quatre"));
-        themeList.add(new Theme("Deux", "chiffre_deux", "chiffre_deux"));
-        themeList.add(new Theme("Trois", "chiffre_trois", "chiffre_trois"));
+        themeList = new ArrayList<ThemeResource>();
+        themeList.add(new ThemeResource("Un", "chiffre_un", "chiffre_un"));
+        themeList.add(new ThemeResource("Quatre", "chiffre_quatre", "chiffre_quatre"));
+        themeList.add(new ThemeResource("Deux", "chiffre_deux", "chiffre_deux"));
+        themeList.add(new ThemeResource("Trois", "chiffre_trois", "chiffre_trois"));
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         submitSorting = (Button) rootView.findViewById(R.id.submitSorting);
@@ -78,7 +79,7 @@ public class SortingFragment extends Fragment {
         this.submitSorting.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 for(int i = 0; i<themeList.size(); i++){
-                    Log.println(Log.VERBOSE, "RESULTSORTING", "==== C "+themeList.get(i).getLibelle());
+                    Log.println(Log.VERBOSE, "RESULTSORTING", "==== C "+themeList.get(i).getName());
                 }
             }
         });

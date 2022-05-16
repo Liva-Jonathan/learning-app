@@ -21,7 +21,14 @@
             app:rowCount="3">
 
             <Button
-                android:id="@+id/button"
+                android:layout_height="100sp"
+                android:layout_margin="5sp"
+                android:text="Button"
+                android:textSize="18sp"
+                app:layout_columnWeight="1"
+                tools:ignore="DuplicateIds" />
+
+            <Button
                 android:layout_height="100sp"
                 android:layout_margin="5sp"
                 android:text="Button"
@@ -29,7 +36,6 @@
                 app:layout_columnWeight="1" />
 
             <Button
-                android:id="@+id/button"
                 android:layout_height="100sp"
                 android:layout_margin="5sp"
                 android:text="Button"
@@ -37,15 +43,6 @@
                 app:layout_columnWeight="1" />
 
             <Button
-                android:id="@+id/button"
-                android:layout_height="100sp"
-                android:layout_margin="5sp"
-                android:text="Button"
-                android:textSize="18sp"
-                app:layout_columnWeight="1" />
-
-            <Button
-                android:id="@+id/button"
                 android:layout_height="100sp"
                 android:layout_margin="5sp"
                 android:text="Button"
