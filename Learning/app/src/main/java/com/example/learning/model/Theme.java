@@ -1,55 +1,68 @@
 package com.example.learning.model;
 
 public class Theme {
-    private String id;
-    private String libelle;
-    private String src_image;
-    private String src_audio;
-    private String valeur;
 
-    public String getId() {
-        return id;
+    private int idTheme;
+    private String name;
+    private String image;
+    private String description;
+    private String urlVideo;
+    private String typeExo;
+
+    public Theme(int idTheme, String name, String image, String description, String urlVideo, String typeExo) {
+        setIdTheme(idTheme);
+        setName(name);
+        setImage(image);
+        setDescription(description);
+        setUrlVideo(urlVideo);
+        setTypeExo(typeExo);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public int getIdTheme() {
+        return idTheme;
     }
 
-    public String getLibelle() {
-        return libelle;
+    public void setIdTheme(int idTheme) {
+        this.idTheme = idTheme;
     }
 
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
+    public String getName() {
+        return name;
     }
 
-    public String getSrc_image() {
-        return src_image;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setSrc_image(String src_image) {
-        this.src_image = src_image;
+    public String getImage() {
+        return image;
     }
 
-    public String getSrc_audio() {
-        return src_audio;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public void setSrc_audio(String src_audio) {
-        this.src_audio = src_audio;
+    public String getDescription() {
+        return description;
     }
 
-    public String getValeur() {
-        return valeur;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setValeur(String valeur) {
-        this.valeur = valeur;
+    public String getUrlVideo() {
+        return urlVideo;
     }
 
-    public Theme(String libelle, String src_image, String src_audio) {
-        this.libelle = libelle;
-        this.src_image = src_image;
-        this.src_audio = src_audio;
+    public void setUrlVideo(String urlVideo) {
+        this.urlVideo = urlVideo;
+    }
+
+    public String getTypeExo() {
+        return typeExo;
+    }
+
+    public void setTypeExo(String typeExo) {
+        this.typeExo = typeExo;
     }
 }
