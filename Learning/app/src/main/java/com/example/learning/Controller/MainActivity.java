@@ -1,5 +1,6 @@
 package com.example.learning.Controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -7,9 +8,16 @@ import android.view.Menu;
 
 import com.example.learning.R;
 import com.example.learning.utils.DatabaseManager;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Menu;
+
+import com.example.learning.controller.ExerciceActivity;
+import com.example.learning.controller.LearnActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,7 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.learning.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -43,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+        navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -81,5 +90,30 @@ public class MainActivity extends AppCompatActivity {
 
     public void setDb(DatabaseManager db) {
         this.db = db;
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Log.println(Log.VERBOSE, "CLICK MENU", "=========YES");
+        if(item.getItemId() == R.id.nav_learn){
+            Intent intent = new Intent(this, LearnActivity.class);
+            startActivity(intent);
+        }
+        if(item.getItemId() == R.id.nav_exerciceWriting){
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
+        if(item.getItemId() == R.id.nav_exerciceSorting){
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
+
+        if(item.getItemId() == R.id.nav_exerciceDragging){
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
+        return true;
     }
 }
