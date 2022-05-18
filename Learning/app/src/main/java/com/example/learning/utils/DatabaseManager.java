@@ -57,11 +57,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
         List<Theme> themes = new ArrayList<>();
         themes.add(new Theme(0, "Alphabet", "alphabet.png", "Un alphabet est un système d'écriture constitué d'un ensemble de symboles dont chacun représente, par exemple, un des phonèmes d’une langue.",
                                 "video", "chooseImage"));
-        themes.add(new Theme(0, "Nombres", "nombres.jpg", "Un nombre est un objet mathématique utilisé pour compter, mesurer et étiqueter. Les exemples originaux sont les nombres naturels 1, 2, 3, 4, etc. Les nombres peuvent être représentés dans la langue avec des mots numériques.",
+        themes.add(new Theme(0, "Nombres", "nombres.png", "Un nombre est un objet mathématique utilisé pour compter, mesurer et étiqueter. Les exemples originaux sont les nombres naturels 1, 2, 3, 4, etc. Les nombres peuvent être représentés dans la langue avec des mots numériques.",
                 "video", "sorting"));
-        themes.add(new Theme(0, "Couleurs", "couleurs.jpg", "La couleur est la perception visuelle de l'aspect d'une surface ou d'une lumière, basée, sans lui être rigoureusement liée, sur la répartition spectrale de la lumière, qui stimule des cellules nerveuses spécialisées situées sur la rétine nommées cônes.",
+        themes.add(new Theme(0, "Couleurs", "couleurs.png", "La couleur est la perception visuelle de l'aspect d'une surface ou d'une lumière, basée, sans lui être rigoureusement liée, sur la répartition spectrale de la lumière, qui stimule des cellules nerveuses spécialisées situées sur la rétine nommées cônes.",
                 "video", "chooseWord"));
-        themes.add(new Theme(0, "Jours de la semaine", "jours.jpg", "Les noms des jours de la semaine, dans les langues latines, tiennent leur origine des noms de divinités de la mythologie romaine. Les noms samedi et dimanche sont deux exceptions.",
+        themes.add(new Theme(0, "Jours de la semaine", "jours.png", "Les noms des jours de la semaine, dans les langues latines, tiennent leur origine des noms de divinités de la mythologie romaine. Les noms samedi et dimanche sont deux exceptions.",
                 "video", "writing"));
         themes.add(new Theme(0, "Formes", "formes.png", "Les noms des jours de la semaine, dans les langues latines, tiennent leur origine des noms de divinités de la mythologie romaine. Les noms samedi et dimanche sont deux exceptions.",
                 "video", "dragging"));

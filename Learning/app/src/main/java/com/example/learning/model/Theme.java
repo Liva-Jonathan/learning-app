@@ -1,5 +1,12 @@
 package com.example.learning.model;
 
+import android.database.Cursor;
+
+import com.example.learning.utils.DatabaseManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Theme {
 
     private int idTheme;
@@ -16,6 +23,28 @@ public class Theme {
         setDescription(description);
         setUrlVideo(urlVideo);
         setTypeExo(typeExo);
+    }
+
+    public static List<Theme> getAllThemes(DatabaseManager dbManager) {
+        List<Theme> themes = new ArrayList<>();
+
+        String sql = "select * from T_Theme order by idTheme limit 4";
+        Cursor cursor = dbManager.getDb().rawQuery(sql, null);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            int idTheme = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String image = cursor.getString(2);
+            String description = cursor.getString(3);
+            String urlVideo = cursor.getString(4);
+            String typeExo = cursor.getString(5);
+            Theme theme = new Theme(idTheme, name, image, description, urlVideo, typeExo);
+            themes.add(theme);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return themes;
     }
 
     public int getIdTheme() {

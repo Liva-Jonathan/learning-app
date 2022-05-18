@@ -1,5 +1,6 @@
 package com.example.learning.controller;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.Menu;
 
 import com.example.learning.R;
+import com.example.learning.fragment.DetailsThemeFragment;
+import com.example.learning.fragment.ListThemeFragment;
 import com.example.learning.utils.DatabaseManager;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +21,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,7 +33,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.learning.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity
+                          implements NavigationView.OnNavigationItemSelectedListener,
+                                     ListThemeFragment.OnFragmentInteractionListener,
+                                     DetailsThemeFragment.OnFragmentInteractionListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -42,25 +51,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_menuTheme,
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        //NavigationUI.setupWithNavController(navigationView, navController);
+//        NavigationUI.setupWithNavController(navigationView, navController);
 
         init();
     }
@@ -68,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void init() {
         Log.i("MainActivity", "init in onCreate invoked");
         setDb(new DatabaseManager(this));
+
+        openFragment(new ListThemeFragment(), false);
     }
 
     @Override
@@ -91,29 +102,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setDb(DatabaseManager db) {
         this.db = db;
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Log.println(Log.VERBOSE, "CLICK MENU", "=========YES");
-        if(item.getItemId() == R.id.nav_learn){
+
+        Fragment fragment = null;
+
+        if(item.getItemId() == R.id.nav_menuTheme){
+            fragment = new ListThemeFragment();
+        }
+        else if(item.getItemId() == R.id.nav_learn){
             Intent intent = new Intent(this, LearnActivity.class);
             startActivity(intent);
         }
-        if(item.getItemId() == R.id.nav_exerciceWriting){
+        else if(item.getItemId() == R.id.nav_exerciceWriting){
             Intent intent = new Intent(this, ExerciceActivity.class);
             intent.putExtra("TYPEEXO", item.getItemId());
             startActivity(intent);
         }
-        if(item.getItemId() == R.id.nav_exerciceSorting){
+        else if(item.getItemId() == R.id.nav_exerciceSorting){
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.nav_exerciceDragging){
             Intent intent = new Intent(this, ExerciceActivity.class);
             intent.putExtra("TYPEEXO", item.getItemId());
             startActivity(intent);
         }
 
-        if(item.getItemId() == R.id.nav_exerciceDragging){
-            Intent intent = new Intent(this, ExerciceActivity.class);
-            intent.putExtra("TYPEEXO", item.getItemId());
-            startActivity(intent);
-        }
+        openFragment(fragment, true);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
         return true;
+    }
+
+//    @Override
+//    public void onBackPressed(){
+//        FragmentManager fm = getFragmentManager();
+//        if (fm.getBackStackEntryCount() > 0) {
+//            Log.i("MainActivity", "popping backstack");
+//            fm.popBackStack();
+//        } else {
+//            Log.i("MainActivity", "nothing on backstack, calling super");
+//            super.onBackPressed();
+//        }
+//    }
+
+    public void openFragment(Fragment fragment, boolean addToBackStack) {
+        if(fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.mainActivityFrame, fragment);
+            if(addToBackStack) {
+                ft.addToBackStack(null);
+            }
+            ft.commit();
+        }
+    }
+
+    @Override
+    public void onFragmentInteractionChangeTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 }
