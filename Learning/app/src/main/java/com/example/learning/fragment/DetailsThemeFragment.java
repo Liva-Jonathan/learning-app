@@ -1,22 +1,24 @@
 package com.example.learning.fragment;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.learning.R;
+import com.example.learning.controller.MainActivity;
 import com.example.learning.model.Theme;
-
-import org.w3c.dom.Text;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragmentX;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,6 +100,11 @@ public class DetailsThemeFragment extends Fragment {
         imageTheme.setImageResource(getContext().getResources().getIdentifier(getTheme().getImage().split("\\.")[0], "drawable", getContext().getPackageName()));
         nameTheme.setText(getTheme().getName());
         descriptionTheme.setText(getTheme().getDescription());
+
+
+//        "qAHMCZBwYo4"
+        MyYouTubePlayerFragment youTubeFragment = MyYouTubePlayerFragment.newInstance(getTheme().getUrlVideo());
+        ((MainActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.youtube_video_container, youTubeFragment).commit();
 
         ImageView imageBtnLearn = (ImageView) btnLearn.findViewById(R.id.imageBtnActionTheme);
         imageBtnLearn.setImageResource(R.drawable.cap);
