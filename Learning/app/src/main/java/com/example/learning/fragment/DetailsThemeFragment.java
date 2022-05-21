@@ -1,6 +1,8 @@
 package com.example.learning.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 
@@ -14,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.learning.R;
+import com.example.learning.controller.ExerciceActivity;
+import com.example.learning.controller.LearnActivity;
+import com.example.learning.controller.MainActivity;
 import com.example.learning.model.Theme;
 
 import org.w3c.dom.Text;
@@ -108,7 +113,26 @@ public class DetailsThemeFragment extends Fragment {
         imageBtnPractice.setImageResource(R.drawable.pencil);
         TextView textBtnPractice = (TextView) btnPractice.findViewById(R.id.textBtnActionTheme);
         textBtnPractice.setText("S'exercer");
+        Log.println(Log.VERBOSE, "THEME", "===NOM == "+getTheme().getName() + " == id "+getTheme().getIdTheme());
+        MainActivity main = (MainActivity)this.getActivity();
 
+        btnLearn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(main, LearnActivity.class);
+                intent.putExtra("theme", getTheme().getIdTheme());
+                startActivity(intent);
+            }
+        });
+
+        btnPractice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(main, ExerciceActivity.class);
+                intent.putExtra("theme", getTheme().getIdTheme());
+                startActivity(intent);
+            }
+        });
         return rootView;
     }
 
