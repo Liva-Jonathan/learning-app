@@ -43,7 +43,7 @@ public class ExerciceActivity extends AppCompatActivity {
 
         setDbManager(new DatabaseManager(this));
 
-        Bundle extras = getIntent().getExtras();
+
         int typeexo = 0;
 
         Fragment myFragment = null;
