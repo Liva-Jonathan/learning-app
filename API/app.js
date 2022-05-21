@@ -42,12 +42,19 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
         })
         .then(result => {
             console.log(result);
-            var send = {
+            /*var send = {
                 status: 200,
                 message: "success",
                 data: result
-            };
-            res.json(send);            
+            };*/
+            if(result != null){
+                res.status(200);
+            }else{
+                res.status(201);                
+            }
+            res.send(JSON.stringify(result));
+
+            //res.json(send);            
         })
         .catch(error => console.error(error))    
     });
@@ -74,13 +81,11 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
 
     app.put(API_url+'/save-score', (req, res) => {        
         var userUpdate = {};
-        userUpdate['email'] = req.body.email;
-        userUpdate['mdp'] = utils.crypt(req.body.mdp);
             var addScore = {};
             addScore = {
                 scores:{
-                    "idtheme": 0,
-                    "score": 100,
+                    "idtheme": req.body.idtheme,
+                    "score": parseInt(req.body.score),
                     "daty": new Date()
                 }
             };
@@ -90,12 +95,13 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
             .then(results =>{
                 console.log(results);
                 console.log("score enregistrer");
-                var send = {
-                    status: 200,
-                    message: "success",
-                    data: results
-                };
-                res.json(send);
+                if(results != null){
+                    res.status(200);
+                }else{
+                    res.status(201);                
+                }
+                res.send(JSON.stringify(results));                
+                //res.json(send);
             })
             .catch(console.error);
     });

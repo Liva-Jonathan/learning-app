@@ -43,12 +43,18 @@
     </group>
 
 
-    <item android:title="Compte">
+    <item android:title="Compte"
+        android:id="@+id/nav_compte"
+        >
         <menu>
             <item
                 android:icon="@drawable/ic_login"
                 android:id="@+id/nav_log"
                 android:title="Connexion" />
+            <item
+                android:icon="@drawable/ic_login"
+                android:id="@+id/nav_logout"
+                android:title="Déconnexion" />
         </menu>
     </item>
 
