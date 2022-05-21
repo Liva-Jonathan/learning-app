@@ -1,5 +1,12 @@
 package com.example.learning.model;
 
+import android.database.Cursor;
+
+import com.example.learning.utils.DatabaseManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ThemeResource {
 
     private int idThemeResource;
@@ -16,6 +23,27 @@ public class ThemeResource {
         setImage(image);
         setVoice(voice);
         setResOrder(resOrder);
+    }
+
+    public static List<ThemeResource> getThemeResources(DatabaseManager dbManager, int idTheme) {
+        List<ThemeResource> themeResources = new ArrayList<>();
+
+        String sql = "select * from T_ThemeResource where idTheme=" + idTheme + " order by resOrder";
+        Cursor cursor = dbManager.getDb().rawQuery(sql, null);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            int idThemeResource = cursor.getInt(0);
+            String name = cursor.getString(2);
+            String image = cursor.getString(3);
+            String voice = cursor.getString(4);
+            int resOrder = cursor.getInt(5);
+            ThemeResource themeResource = new ThemeResource(idThemeResource, idTheme, name, image, voice, resOrder);
+            themeResources.add(themeResource);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return themeResources;
     }
 
     public ThemeResource(String name, String image, String voice) {

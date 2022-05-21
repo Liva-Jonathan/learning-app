@@ -9,15 +9,23 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.learning.R;
+import com.example.learning.fragment.ChooseImageFragment;
+import com.example.learning.fragment.ChooseWordFragment;
 import com.example.learning.fragment.DraggingFragment;
 import com.example.learning.fragment.LearnFragment;
 import com.example.learning.fragment.SortingFragment;
 import com.example.learning.fragment.WritingFragment;
+import com.example.learning.utils.DatabaseManager;
 
 public class ExerciceActivity extends AppCompatActivity {
 
+    private DatabaseManager dbManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setDbManager(new DatabaseManager(this));
+
         Bundle extras = getIntent().getExtras();
         int typeexo = 0;
         Fragment myFragment = null;
@@ -38,11 +46,25 @@ public class ExerciceActivity extends AppCompatActivity {
         if(typeexo == R.id.nav_exerciceDragging){
             myFragment = new DraggingFragment();
         }
+        if(typeexo == R.id.nav_exerciceChooseImage) {
+            myFragment = new ChooseImageFragment();
+        }
+        if(typeexo == R.id.nav_exerciceChooseWord) {
+            myFragment = new ChooseWordFragment();
+        }
 
         Bundle bundle = new Bundle();
         String myMessage = "Alphabet";
         bundle.putString("categorie", myMessage );
         myFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.exercicefragment, myFragment).commit();
+    }
+
+    public DatabaseManager getDbManager() {
+        return dbManager;
+    }
+
+    public void setDbManager(DatabaseManager dbManager) {
+        this.dbManager = dbManager;
     }
 }
