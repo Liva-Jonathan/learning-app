@@ -1,5 +1,6 @@
 package com.example.learning.utils;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private static final String TAG = "RecyclerAdapter";
     List<ThemeResource> themeList;
 
+    public List<ThemeResource> getThemeList() {
+        return themeList;
+    }
+
+    public void setThemeList(List<ThemeResource> themeList) {
+        this.themeList = themeList;
+    }
+
     public RecyclerAdapter(List<ThemeResource> themeList) {
+        //setHasStableIds(true);
         this.themeList = themeList;
     }
 
@@ -59,7 +69,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(view.getContext(), themeList.get(getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(view.getContext(), themeList.get(getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
         }
     }
 }

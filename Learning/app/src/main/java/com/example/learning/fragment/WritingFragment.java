@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.learning.R;
+import com.example.learning.controller.ExerciceActivity;
+import com.example.learning.model.Exercice;
+import com.example.learning.model.Question;
+import com.example.learning.model.ThemeResource;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,6 +39,15 @@ public class WritingFragment extends Fragment {
     private TextView textWriting;
     private Button submitWriting;
     private Character [] letters = new Character[12];
+    private Question question;
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -47,11 +62,7 @@ public class WritingFragment extends Fragment {
         textWriting = (TextView) rootView.findViewById(R.id.textWriting);
         textWriting.setText("Allo");
         submitWriting = (Button)rootView.findViewById(R.id.submitWriting);
-        generateLetters("lundi");
-
-        generateKeyboard(typingZone);
-
-        getStringOutput();
+        init();
         return rootView;
     }
 
@@ -148,16 +159,53 @@ public class WritingFragment extends Fragment {
 
     private void getStringOutput(){
         submitWriting.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                String result = "";
-                for(int i = 0; i<outputZone.getChildCount(); i++){
-                    Button btn = (Button)outputZone.getChildAt(i);
-                    result = result + btn.getText().toString();
+                ExerciceActivity activity = (ExerciceActivity) WritingFragment.this.getActivity();
+                String resultOutput = WritingFragment.this.getStringOutputZone();
+                boolean res = activity.checkReponse(WritingFragment.this.getQuestion(), resultOutput);
+                Exercice exo = activity.getExercice();
+                if(res){
+                    Log.println(Log.VERBOSE, "RESULT", "===== VRAI");
+                    exo.setBonne(exo.getBonne() + 1);
+                }else{
+                    Log.println(Log.VERBOSE, "RESULT", "===== FAUX");
+                    exo.setMauvaise(exo.getMauvaise() + 1);
                 }
-                Log.println(Log.VERBOSE, "RESULT", "===== "+result);
+                exo.setTotale(exo.getTotale() + 1);
+                if(exo.getTotale()>=exo.getFin()){
+                    activity.showScore();
+                }else{
+                    init();
+                }
             }
         });
+    }
+
+    private String getStringOutputZone(){
+        String result = "";
+        for(int i = 0; i<outputZone.getChildCount(); i++){
+            Button btn = (Button)outputZone.getChildAt(i);
+            result = result + btn.getText().toString();
+        }
+        return result;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void init(){
+        typingZone.removeAllViews();
+        outputZone.removeAllViews();
+        setQuestion(((ExerciceActivity)this.getActivity()).getRandQuestion());
+        generateLetters(this.getQuestion().getReponse().getName());
+
+        generateKeyboard(typingZone);
+
+        getStringOutput();
+        textWriting.setText(this.getQuestion().getQuestion());
+        if(outputZone.getChildCount() == 0){
+            submitWriting.setVisibility(View.INVISIBLE);
+        }
     }
 
 

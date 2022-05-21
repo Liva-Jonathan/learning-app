@@ -1,23 +1,17 @@
 package com.example.learning.controller;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 
 import com.example.learning.R;
+import com.example.learning.controller.ui.login.LoginActivity;
 import com.example.learning.fragment.DetailsThemeFragment;
 import com.example.learning.fragment.ListThemeFragment;
 import com.example.learning.utils.DatabaseManager;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Menu;
 
-import com.example.learning.controller.ExerciceActivity;
-import com.example.learning.controller.LearnActivity;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -141,6 +135,12 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("TYPEEXO", item.getItemId());
             startActivity(intent);
         }
+        else if(item.getItemId() == R.id.nav_log){
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
+
 
         openFragment(fragment, true);
 

@@ -21,15 +21,18 @@
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Learning">
         <activity
-            android:name=".controller.ExerciceActivity"
+            android:name=".controller.ui.login.LoginActivity"
             android:exported="false"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".controller.ExerciceActivity"
             android:configChanges="orientation|screenSize"
-            />
+            android:exported="false" />
         <activity
             android:name=".controller.LearnActivity"
             android:exported="false" />
