@@ -13,6 +13,8 @@
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/btn_action_theme.xml" value="0.21920289855072464" />
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/content_main.xml" value="0.264" />
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_card_theme.xml" value="0.21920289855072464" />
+        <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_choose_image.xml" value="0.25416666666666665" />
+        <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_choose_word.xml" value="0.264" />
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_details_theme.xml" value="0.264" />
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_dragging.xml" value="0.11302083333333333" />
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_gallery.xml" value="0.11302083333333333" />
@@ -20,6 +22,7 @@
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_item_list.xml" value="0.24010416666666667" />
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_learn.xml" value="0.2513586956521739" />
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_list_theme.xml" value="0.2513586956521739" />
+        <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_my_you_tube_player.xml" value="0.25416666666666665" />
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_slideshow.xml" value="0.2513586956521739" />
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_sorting.xml" value="0.2513586956521739" />
         <entry key="..\:/ITU/S7/Mobile/Projects/Learning-app/Learning/app/src/main/res/layout/fragment_writing.xml" value="0.11302083333333333" />

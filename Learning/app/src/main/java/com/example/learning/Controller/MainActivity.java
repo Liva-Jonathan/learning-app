@@ -125,6 +125,16 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("TYPEEXO", item.getItemId());
             startActivity(intent);
         }
+        else if(item.getItemId() == R.id.nav_exerciceChooseImage) {
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.nav_exerciceChooseWord) {
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
         else if(item.getItemId() == R.id.nav_log){
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("TYPEEXO", item.getItemId());

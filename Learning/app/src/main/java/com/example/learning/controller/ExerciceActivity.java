@@ -10,11 +10,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.learning.R;
+import com.example.learning.fragment.ChooseImageFragment;
+import com.example.learning.fragment.ChooseWordFragment;
 import com.example.learning.fragment.DraggingFragment;
 import com.example.learning.fragment.LearnFragment;
 import com.example.learning.fragment.ScoreFragment;
 import com.example.learning.fragment.SortingFragment;
 import com.example.learning.fragment.WritingFragment;
+import com.example.learning.utils.DatabaseManager;
 import com.example.learning.model.Exercice;
 import com.example.learning.model.Question;
 import com.example.learning.model.Theme;
@@ -33,15 +36,16 @@ public class ExerciceActivity extends AppCompatActivity {
         return exercice;
     }
 
-    public void setExercice(Exercice exercice) {
-        this.exercice = exercice;
-    }
+    private DatabaseManager dbManager;
 
-    public int getThemeID(){
-        return this.themeID;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setDbManager(new DatabaseManager(this));
+
+        Bundle extras = getIntent().getExtras();
+        int typeexo = 0;
+
         Fragment myFragment = null;
         resetExercice();
         Bundle extras = getIntent().getExtras();
@@ -62,6 +66,12 @@ public class ExerciceActivity extends AppCompatActivity {
         if(getThemeID() == Constante.themeID_forme){
             myFragment = new DraggingFragment();
         }
+        if(typeexo == R.id.nav_exerciceChooseImage) {
+            myFragment = new ChooseImageFragment();
+        }
+        if(typeexo == R.id.nav_exerciceChooseWord) {
+            myFragment = new ChooseWordFragment();
+        }
 
         Bundle bundle = new Bundle();
         String myMessage = "Alphabet";
@@ -71,6 +81,21 @@ public class ExerciceActivity extends AppCompatActivity {
         init();
     }
 
+    public void setExercice(Exercice exercice) {
+        this.exercice = exercice;
+    }
+
+    public int getThemeID(){
+        return this.themeID;
+    }
+
+    public DatabaseManager getDbManager() {
+        return dbManager;
+    }
+
+    public void setDbManager(DatabaseManager dbManager) {
+        this.dbManager = dbManager;
+    }
     public void init() {
         setDb(new DatabaseManager(this));
     }
