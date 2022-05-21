@@ -56,15 +56,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void insertDatabaseInitialData(SQLiteDatabase db) {
         List<Theme> themes = new ArrayList<>();
         themes.add(new Theme(0, "Alphabet", "alphabet.png", "Un alphabet est un système d'écriture constitué d'un ensemble de symboles dont chacun représente, par exemple, un des phonèmes d’une langue.",
-                                "video", "chooseImage"));
+                                "5xuZxGirWQI", "chooseImage"));
         themes.add(new Theme(0, "Nombres", "nombres.png", "Un nombre est un objet mathématique utilisé pour compter, mesurer et étiqueter. Les exemples originaux sont les nombres naturels 1, 2, 3, 4, etc. Les nombres peuvent être représentés dans la langue avec des mots numériques.",
-                "video", "sorting"));
+                "dhj9SqrIZqI", "sorting"));
         themes.add(new Theme(0, "Couleurs", "couleurs.png", "La couleur est la perception visuelle de l'aspect d'une surface ou d'une lumière, basée, sans lui être rigoureusement liée, sur la répartition spectrale de la lumière, qui stimule des cellules nerveuses spécialisées situées sur la rétine nommées cônes.",
-                "video", "chooseWord"));
+                "m50U33brThk", "chooseWord"));
         themes.add(new Theme(0, "Jours de la semaine", "jours.png", "Les noms des jours de la semaine, dans les langues latines, tiennent leur origine des noms de divinités de la mythologie romaine. Les noms samedi et dimanche sont deux exceptions.",
-                "video", "writing"));
-        themes.add(new Theme(0, "Formes", "formes.png", "Les noms des jours de la semaine, dans les langues latines, tiennent leur origine des noms de divinités de la mythologie romaine. Les noms samedi et dimanche sont deux exceptions.",
-                "video", "dragging"));
+                "eA5jSbKd5cM", "writing"));
+//        themes.add(new Theme(0, "Formes", "formes.png", "Les noms des jours de la semaine, dans les langues latines, tiennent leur origine des noms de divinités de la mythologie romaine. Les noms samedi et dimanche sont deux exceptions.",
+//                "video", "dragging"));
 
         for(Theme theme: themes) {
             String themeDescription = theme.getDescription().replace("'", "''");
@@ -138,12 +138,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
         themeResources.add(new ThemeResource(0, 4, "Dimanche", "dimanche.png", "dimanche.mp3", 7));
 
         // Formes
-        themeResources.add(new ThemeResource(0, 5, "Carré", "carre.png", "carre.mp3", 1));
-        themeResources.add(new ThemeResource(0, 5, "Coeur", "coeur.png", "coeur.mp3", 2));
-        themeResources.add(new ThemeResource(0, 5, "Etoile", "etoile.png", "etoile.mp3", 3));
-        themeResources.add(new ThemeResource(0, 5, "Losange", "losange.png", "losange.mp3", 4));
-        themeResources.add(new ThemeResource(0, 5, "Rond", "rond.png", "rond.mp3", 5));
-        themeResources.add(new ThemeResource(0, 5, "Triangle", "triangle.png", "triangle.mp3", 6));
+//        themeResources.add(new ThemeResource(0, 5, "Carré", "carre.png", "carre.mp3", 1));
+//        themeResources.add(new ThemeResource(0, 5, "Coeur", "coeur.png", "coeur.mp3", 2));
+//        themeResources.add(new ThemeResource(0, 5, "Etoile", "etoile.png", "etoile.mp3", 3));
+//        themeResources.add(new ThemeResource(0, 5, "Losange", "losange.png", "losange.mp3", 4));
+//        themeResources.add(new ThemeResource(0, 5, "Rond", "rond.png", "rond.mp3", 5));
+//        themeResources.add(new ThemeResource(0, 5, "Triangle", "triangle.png", "triangle.mp3", 6));
 
         for(ThemeResource themeResource: themeResources) {
             String sql = "insert into T_themeResource (idTheme, name, image, voice, resOrder) values ("

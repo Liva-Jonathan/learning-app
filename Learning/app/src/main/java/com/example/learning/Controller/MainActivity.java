@@ -115,6 +115,31 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LearnActivity.class);
             startActivity(intent);
         }
+        else if(item.getItemId() == R.id.nav_exerciceWriting){
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.nav_exerciceSorting){
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.nav_exerciceDragging){
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.nav_exerciceChooseImage) {
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.nav_exerciceChooseWord) {
+            Intent intent = new Intent(this, ExerciceActivity.class);
+            intent.putExtra("TYPEEXO", item.getItemId());
+            startActivity(intent);
+        }
         else if(item.getItemId() == R.id.nav_log){
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("TYPEEXO", item.getItemId());
