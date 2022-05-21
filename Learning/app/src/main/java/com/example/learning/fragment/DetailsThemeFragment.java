@@ -121,7 +121,7 @@ public class DetailsThemeFragment extends Fragment {
         imageBtnPractice.setImageResource(R.drawable.pencil);
         TextView textBtnPractice = (TextView) btnPractice.findViewById(R.id.textBtnActionTheme);
         textBtnPractice.setText("S'exercer");
-        Log.println(Log.VERBOSE, "THEME", "===NOM == "+getTheme().getName() + " == id "+getTheme().getIdTheme());
+        //Log.println(Log.VERBOSE, "THEME", "===NOM == "+getTheme().getName() + " == id "+getTheme().getIdTheme());
         MainActivity main = (MainActivity)this.getActivity();
 
         btnLearn.setOnClickListener(new View.OnClickListener() {
