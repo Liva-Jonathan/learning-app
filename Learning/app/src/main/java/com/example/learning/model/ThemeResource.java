@@ -8,6 +8,8 @@ public class ThemeResource {
     private String image;
     private String voice;
     private int resOrder;
+    private ThemeResource next;
+    private ThemeResource previous;
 
     public ThemeResource(int idThemeResource, int idTheme, String name, String image, String voice, int resOrder) {
         setIdThemeResource(idThemeResource);
@@ -16,12 +18,6 @@ public class ThemeResource {
         setImage(image);
         setVoice(voice);
         setResOrder(resOrder);
-    }
-
-    public ThemeResource(String name, String image, String voice) {
-        setName(name);
-        setImage(image);
-        setVoice(voice);
     }
 
     public int getIdThemeResource() {
@@ -70,5 +66,21 @@ public class ThemeResource {
 
     public void setResOrder(int resOrder) {
         this.resOrder = resOrder;
+    }
+
+    public ThemeResource getNext() {
+        return next;
+    }
+
+    public void setNext(ThemeResource next) {
+        this.next = next;
+    }
+
+    public ThemeResource getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(ThemeResource previous) {
+        this.previous = previous;
     }
 }

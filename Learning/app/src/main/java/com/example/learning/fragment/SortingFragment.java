@@ -14,11 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.learning.R;
+import com.example.learning.controller.ExerciceActivity;
+import com.example.learning.model.Exercice;
 import com.example.learning.model.Theme;
 import com.example.learning.model.ThemeResource;
+import com.example.learning.utils.Constante;
 import com.example.learning.utils.RecyclerAdapter;
+import com.example.learning.utils.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,60 +34,125 @@ public class SortingFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     Button submitSorting;
-
+    TextView textSorting;
+    ItemTouchHelper.SimpleCallback simpleCallback;
+    int order;
     List<ThemeResource> themeList;
+
+    public List<ThemeResource> getThemeList() {
+        return themeList;
+    }
+
+    public void setThemeList(List<ThemeResource> themeList) {
+        this.themeList = themeList;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_sorting, container, false);
 
-        themeList = new ArrayList<ThemeResource>();
-        themeList.add(new ThemeResource("Un", "chiffre_un", "chiffre_un"));
-        themeList.add(new ThemeResource("Quatre", "chiffre_quatre", "chiffre_quatre"));
-        themeList.add(new ThemeResource("Deux", "chiffre_deux", "chiffre_deux"));
-        themeList.add(new ThemeResource("Trois", "chiffre_trois", "chiffre_trois"));
-
+        textSorting = rootView.findViewById(R.id.textSorting);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         submitSorting = (Button) rootView.findViewById(R.id.submitSorting);
-        submit();
-        recyclerAdapter = new RecyclerAdapter(themeList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(recyclerAdapter);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-
+        init();
         return rootView;
     }
 
-    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+    public void initCallback(){
+        simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                int fromPosition = viewHolder.getBindingAdapterPosition();
+                int toPosition = target.getBindingAdapterPosition();
+                //Collections.swap(themeList, fromPosition, toPosition);
+                if(fromPosition < toPosition){
+                    Collections.rotate(themeList.subList(fromPosition, toPosition+1), -1);
+                }
+                if(fromPosition > toPosition){
+                    Collections.rotate(themeList.subList(toPosition, fromPosition+1), 1);
+                }
+                recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+                return false;
+            }
 
-            int fromPosition = viewHolder.getAdapterPosition();
-            int toPosition = target.getAdapterPosition();
-            Collections.swap(themeList, fromPosition, toPosition);
-            recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
-            return false;
-        }
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-        }
-    };
+            }
+        };
+    }
 
     private void submit(){
         this.submitSorting.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                for(int i = 0; i<themeList.size(); i++){
-                    Log.println(Log.VERBOSE, "RESULTSORTING", "==== C "+themeList.get(i).getName());
-                }
+                    ExerciceActivity activity = (ExerciceActivity) SortingFragment.this.getActivity();
+                    Exercice exo = activity.getExercice();
+                    boolean res = activity.checkOrderTab(getThemeList(), getOrder());
+                    if(res){
+                        Log.println(Log.VERBOSE, "RESULT", "===== VRAI");
+                        exo.setBonne(exo.getBonne() + 1);
+                    }else{
+                        Log.println(Log.VERBOSE, "RESULT", "===== FAUX");
+                        exo.setMauvaise(exo.getMauvaise() + 1);
+                    }
+                    exo.setTotale(exo.getTotale() + 1);
+                    if(exo.getTotale()>=exo.getFin()){
+                        activity.showScore();
+                    }else{
+                        init();
+                    }
             }
         });
     }
+
+    public String getLibelleOrder(){
+        if(this.getOrder() == 0){
+            return "croissant";
+        }else if(this.getOrder() == 1){
+            return "décroissant";
+        }
+        return null;
+    }
+
+    public void init(){
+        themeList = new ArrayList<ThemeResource>();
+        setOrder(Util.getRandNumber(0, 1));
+        ThemeResource[] tab = ((ExerciceActivity)this.getActivity()).getURandTheme(Constante.config_nbSorting, this.getOrder());
+        for(int i = 0; i< tab.length; i++){
+            themeList.add(tab[i]);
+        }
+        submit();
+
+        if(recyclerAdapter == null){
+            recyclerAdapter = new RecyclerAdapter(themeList);
+
+            recyclerView.setAdapter(recyclerAdapter);
+
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this.getContext(), DividerItemDecoration.VERTICAL);
+            recyclerView.addItemDecoration(dividerItemDecoration);
+
+            initCallback();
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+            itemTouchHelper.attachToRecyclerView(recyclerView);
+        }else{
+            //recyclerView.swapAdapter(new RecyclerAdapter(themeList), false);
+            recyclerAdapter.getThemeList().clear();
+            recyclerAdapter.setThemeList(themeList);
+            //recyclerAdapter = new RecyclerAdapter(themeList);
+            recyclerAdapter.notifyDataSetChanged();
+        }
+        textSorting.setText("Remettre dans l'ordre "+this.getLibelleOrder());
+    }
+
 }
