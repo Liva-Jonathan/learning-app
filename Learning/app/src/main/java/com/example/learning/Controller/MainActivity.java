@@ -9,9 +9,12 @@ import com.example.learning.R;
 import com.example.learning.controller.ui.login.LoginActivity;
 import com.example.learning.fragment.DetailsThemeFragment;
 import com.example.learning.fragment.ListThemeFragment;
+import com.example.learning.model.User;
 import com.example.learning.utils.DatabaseManager;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.example.learning.utils.Serializer;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -34,8 +37,9 @@ public class MainActivity extends AppCompatActivity
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-
+    NavigationView navigationView;
     private DatabaseManager db;
+    private final String filename = "log";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +57,9 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        });
         DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+        checkLogMenu();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_menuTheme,
@@ -110,25 +115,13 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LearnActivity.class);
             startActivity(intent);
         }
-        else if(item.getItemId() == R.id.nav_exerciceWriting){
-            Intent intent = new Intent(this, ExerciceActivity.class);
-            intent.putExtra("TYPEEXO", item.getItemId());
-            startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.nav_exerciceSorting){
-            Intent intent = new Intent(this, ExerciceActivity.class);
-            intent.putExtra("TYPEEXO", item.getItemId());
-            startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.nav_exerciceDragging){
-            Intent intent = new Intent(this, ExerciceActivity.class);
-            intent.putExtra("TYPEEXO", item.getItemId());
-            startActivity(intent);
-        }
         else if(item.getItemId() == R.id.nav_log){
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra("TYPEEXO", item.getItemId());
             startActivity(intent);
+        }else if(item.getItemId() == R.id.nav_logout){
+            Serializer.logout(filename, this);
+            checkLogMenu();
         }
 
 
@@ -166,5 +159,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteractionChangeTitle(String title) {
         getSupportActionBar().setTitle(title);
+    }
+
+    public void checkLogMenu(){
+        boolean auth = checkAuth();
+        if(auth){
+            navigationView.getMenu().findItem(R.id.nav_log).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+        }else{
+            navigationView.getMenu().findItem(R.id.nav_log).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
+        }
+    }
+
+    public boolean checkAuth(){
+        User u =(User) Serializer.deSerialize(filename, this);
+        if(u != null){
+            if(u.getEmail() != null){
+                return true;
+            }
+        }
+        return false;
     }
 }

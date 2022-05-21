@@ -20,27 +20,21 @@
             android:id="@+id/nav_learn"
             android:icon="@drawable/ic_settings"
             android:title="Apprendre" />
-        <item
-            android:id="@+id/nav_exerciceWriting"
-            android:icon="@drawable/ic_settings"
-            android:title="Exercice writing" />
-        <item
-            android:id="@+id/nav_exerciceSorting"
-            android:icon="@drawable/ic_settings"
-            android:title="Exercice sorting" />
-        <item
-            android:id="@+id/nav_exerciceDragging"
-            android:icon="@drawable/ic_settings"
-            android:title="Exercice dragging" />
     </group>
 
 
-    <item android:title="Compte">
+    <item android:title="Compte"
+        android:id="@+id/nav_compte"
+        >
         <menu>
             <item
                 android:icon="@drawable/ic_login"
                 android:id="@+id/nav_log"
                 android:title="Connexion" />
+            <item
+                android:icon="@drawable/ic_login"
+                android:id="@+id/nav_logout"
+                android:title="Déconnexion" />
         </menu>
     </item>
 
