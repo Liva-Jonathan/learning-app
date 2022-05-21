@@ -43,9 +43,6 @@ public class ExerciceActivity extends AppCompatActivity {
 
         setDbManager(new DatabaseManager(this));
 
-
-        int typeexo = 0;
-
         Fragment myFragment = null;
         resetExercice();
         Bundle extras = getIntent().getExtras();
@@ -66,10 +63,10 @@ public class ExerciceActivity extends AppCompatActivity {
         if(getThemeID() == Constante.themeID_forme){
             myFragment = new DraggingFragment();
         }
-        if(typeexo == R.id.nav_exerciceChooseImage) {
+        if(getThemeID() == Constante.themeID_alphabet) {
             myFragment = new ChooseImageFragment();
         }
-        if(typeexo == R.id.nav_exerciceChooseWord) {
+        if(getThemeID() == Constante.themeID_couleur) {
             myFragment = new ChooseWordFragment();
         }
 
