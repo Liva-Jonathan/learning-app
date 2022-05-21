@@ -78,14 +78,14 @@ public class ChooseImageFragment extends Fragment {
         return rootView;
     }
 
-    public List<ThemeResource> getOneExercise() {
-        List<ThemeResource> themeResources = new ArrayList<>();
-        int[] indexes = new int[4];
-        for(int i = 0; i < 4; i++) {
-            int nbRandom = new Random().nextInt(getThemeResources().size());
-
-        }
-    }
+//    public List<ThemeResource> getOneExercise() {
+//        List<ThemeResource> themeResources = new ArrayList<>();
+//        int[] indexes = new int[4];
+//        for(int i = 0; i < 4; i++) {
+//            int nbRandom = new Random().nextInt(getThemeResources().size());
+//
+//        }
+//    }
 
     public List<ThemeResource> getThemeResources() {
         return themeResources;
