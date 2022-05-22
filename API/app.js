@@ -50,6 +50,7 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
             if(result != null){
                 res.status(200);
             }else{
+                res.statusMessage = "Connexion echouee";
                 res.status(201);                
             }
             res.send(JSON.stringify(result));
@@ -98,6 +99,7 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
                 if(results != null){
                     res.status(200);
                 }else{
+                    res.statusMessage = "Connexion echouee";
                     res.status(201);                
                 }
                 res.send(JSON.stringify(results));                
