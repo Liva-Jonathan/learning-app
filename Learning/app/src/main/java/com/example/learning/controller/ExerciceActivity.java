@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -259,6 +260,33 @@ public class ExerciceActivity extends AppCompatActivity {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.exercicefragment, myFragment).commit();
+    }
+
+    public void playAudio(int resourceId) {
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, resourceId);
+        mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
+    }
+
+    public boolean checkExerciceIfContinue(boolean isAnswerTrue) {
+        if(isAnswerTrue) {
+            getExercice().setBonne(getExercice().getBonne() + 1);
+        } else {
+            getExercice().setMauvaise(getExercice().getMauvaise() + 1);
+        }
+        getExercice().setTotale(getExercice().getTotale() + 1);
+
+        if(getExercice().getTotale() >= getExercice().getFin()) {
+            this.showScore();
+            return false;
+        }
+        return true;
     }
 
 }

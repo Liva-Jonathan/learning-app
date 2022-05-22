@@ -2,11 +2,6 @@ package com.example.learning.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +11,10 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.learning.R;
 import com.example.learning.controller.ExerciceActivity;
@@ -27,8 +26,6 @@ import com.example.learning.utils.Constante;
 import com.example.learning.utils.RetrofitInterface;
 import com.example.learning.utils.Serializer;
 import com.example.learning.utils.Util;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
@@ -140,8 +137,12 @@ public class ScoreFragment extends Fragment {
                 if(exerciceActivity.getMytheme().getIdTheme() == Constante.themeID_jour){
                     myFragment = new WritingFragment();
                 }
-                if(exerciceActivity.getMytheme().getIdTheme() == Constante.themeID_nombre){
+                else if(exerciceActivity.getMytheme().getIdTheme() == Constante.themeID_nombre){
                     myFragment = new SortingFragment();
+                } else if(exerciceActivity.getMytheme().getIdTheme() == Constante.themeID_alphabet) {
+                    myFragment = new ChooseImageFragment();
+                } else if(exerciceActivity.getMytheme().getIdTheme() == Constante.themeID_couleur) {
+                    myFragment = new ChooseWordFragment();
                 }
                 FragmentManager fragmentManager = exerciceActivity.getSupportFragmentManager();
                 final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

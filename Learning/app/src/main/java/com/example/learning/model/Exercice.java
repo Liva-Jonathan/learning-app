@@ -2,9 +2,9 @@ package com.example.learning.model;
 
 public class Exercice {
     private final int fin = 5;
-    private int totale;
-    private int bonne;
-    private int mauvaise;
+    private int totale = 0;
+    private int bonne = 0;
+    private int mauvaise = 0;
 
     public int getFin() {
         return fin;

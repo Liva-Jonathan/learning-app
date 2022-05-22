@@ -31,6 +31,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.example.learning.databinding.ActivityMainBinding;
 
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
 
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
         init();
     }
 
@@ -124,18 +127,8 @@ public class MainActivity extends AppCompatActivity
         if(item.getItemId() == R.id.nav_menuTheme){
             fragment = new ListThemeFragment();
         }
-        else if(item.getItemId() == R.id.nav_learn){
-            Intent intent = new Intent(this, LearnActivity.class);
-            startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.nav_exerciceChooseImage) {
-            Intent intent = new Intent(this, ExerciceActivity.class);
-            intent.putExtra("TYPEEXO", item.getItemId());
-            startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.nav_exerciceChooseWord) {
-            Intent intent = new Intent(this, ExerciceActivity.class);
-            intent.putExtra("TYPEEXO", item.getItemId());
+        else if(item.getItemId() == R.id.nav_settings){
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.nav_log){
@@ -157,7 +150,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-
         openFragment(fragment, true);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -166,7 +158,17 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-//    @Override
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //    @Override
 //    public void onBackPressed(){
 //        FragmentManager fm = getFragmentManager();
 //        if (fm.getBackStackEntryCount() > 0) {

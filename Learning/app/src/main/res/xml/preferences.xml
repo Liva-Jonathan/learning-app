@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:title="Générale">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="song_preference"
+            android:summary="Activer ou désactiver le son d'accueil"
+            android:title="Son" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="theme_preference"
+            android:summary="Activer ou désactiver le mode sombre"
+            android:title="Thème Sombre" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Notifications">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="reminder_preference"
+            android:summary="Activer ou désactiver les notifications"
+            android:title="Notifications"/>
+        <Preference
+            android:key="reminderHour_preference"
+            android:summary="08:00"
+            android:title="Heure de rappel"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -10,13 +10,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.3"
+        android:layout_weight="1.4"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="30dp">
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/imageChooseWord"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -26,13 +26,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.8">
+        android:layout_weight="1.9">
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choisissez le mot correct :"
+            android:text="Choisissez le mot correspondant:"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:background="#00FFFFFF"
+                android:background="#efefef"
                 android:cropToPadding="false"
                 android:scaleType="fitXY"
                 android:src="@drawable/audio"
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:background="#00FFFFFF"
+                android:background="#efefef"
                 android:cropToPadding="false"
                 android:scaleType="fitXY"
                 android:src="@drawable/audio"
@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:background="#00FFFFFF"
+                android:background="#efefef"
                 android:cropToPadding="false"
                 android:scaleType="fitXY"
                 android:src="@drawable/audio"
@@ -170,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:background="#00FFFFFF"
+                android:background="#efefef"
                 android:cropToPadding="false"
                 android:scaleType="fitXY"
                 android:src="@drawable/audio"
@@ -183,7 +183,20 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1" >
+
+            <ImageButton
+                android:id="@+id/chooseWordNextBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:src="@drawable/next"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 </LinearLayout>
