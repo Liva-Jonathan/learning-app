@@ -100,10 +100,10 @@ public class SortingFragment extends Fragment {
                     Exercice exo = activity.getExercice();
                     boolean res = activity.checkOrderTab(getThemeList(), getOrder());
                     if(res){
-                        Log.println(Log.VERBOSE, "RESULT", "===== VRAI");
+                        //Log.println(Log.VERBOSE, "RESULT", "===== VRAI");
                         exo.setBonne(exo.getBonne() + 1);
                     }else{
-                        Log.println(Log.VERBOSE, "RESULT", "===== FAUX");
+                        //Log.println(Log.VERBOSE, "RESULT", "===== FAUX");
                         exo.setMauvaise(exo.getMauvaise() + 1);
                     }
                     exo.setTotale(exo.getTotale() + 1);

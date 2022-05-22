@@ -26,6 +26,7 @@ import com.example.learning.model.User;
 import com.example.learning.utils.Constante;
 import com.example.learning.utils.RetrofitInterface;
 import com.example.learning.utils.Serializer;
+import com.example.learning.utils.Util;
 
 import org.w3c.dom.Text;
 
@@ -43,23 +44,23 @@ public class ScoreFragment extends Fragment {
     private RetrofitInterface retrofitInterface;
     private ProgressBar progressBar;
     private TextView progressText;
+    private TextView scoreText;
     private Handler mHandler = new Handler();
     private int status = 0;
     private Button save;
     private Button retry;
     private User logged;
-    private String BASE_URL = "http://192.168.88.16:1010";
-    private final String filename = "log";
+    private final String BASE_URL = Constante.API_URL;
+    private final String filename = Constante.filelog;
 
     public ScoreFragment(){
-        Log.println(Log.VERBOSE, "LOG", "=====INI SAVED");
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.println(Log.VERBOSE, "LOG", "=====INI CRATE");
         View rootView = inflater.inflate(R.layout.fragment_score, container, false);
 
         retrofit = new Retrofit.Builder()
@@ -92,8 +93,10 @@ public class ScoreFragment extends Fragment {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        progressText.setText("Score: "+exo.getBonne() + "/"+exo.getTotale() + progress+"%");
+                        progressText.setText("Score: "+ progress+"%");
                         progressText.setVisibility(View.VISIBLE);
+                        scoreText.setText(exo.getBonne() + "/"+exo.getTotale());
+                        scoreText.setVisibility(View.VISIBLE);
                     }
                 });
             }
@@ -102,20 +105,27 @@ public class ScoreFragment extends Fragment {
         progressBar = rootView.findViewById(R.id.progressBarScore);
         progressText = rootView.findViewById(R.id.progressText);
         progressText.setVisibility(View.INVISIBLE);
+        scoreText = rootView.findViewById(R.id.scoreText);
+        scoreText.setVisibility(View.INVISIBLE);
+
         setSave(rootView.findViewById(R.id.buttonSaveScore));
         getSave().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(checkAuth()){
-                    Toast.makeText(ScoreFragment.this.getActivity().getApplicationContext(), "ENREGISTRER", Toast.LENGTH_LONG).show();
-                    //ScoreFragment.saveScore(progress, ((ExerciceActivity)ScoreFragment.this.getActivity()).getThemeID(), new Integer(ScoreFragment.this.getLogged().get_id()), ScoreFragment.this.retrofitInterface);
+                    (new ScoreFragment()).saveScore(progress, ((ExerciceActivity)ScoreFragment.this.getActivity()).getMytheme().getIdTheme(), ScoreFragment.this.getLogged().get_id(), ScoreFragment.this.retrofitInterface);
                     Intent intent = new Intent(ScoreFragment.this.getActivity(), MainActivity.class);
                     startActivity(intent);
+                    Toast.makeText(ScoreFragment.this.getActivity().getApplicationContext(), "Score enregistré", Toast.LENGTH_LONG).show();
                 }else{
-                    Intent intent = new Intent(ScoreFragment.this.getActivity(), LoginActivity.class);
-                    intent.putExtra("idtheme", ((ExerciceActivity)ScoreFragment.this.getActivity()).getThemeID());
-                    intent.putExtra("score", progress);
-                    startActivity(intent);
+                    if(!Util.isNetworkAvailable(ScoreFragment.this.getActivity())){
+                        Toast.makeText(ScoreFragment.this.getActivity().getApplicationContext(), "Vous n'etes pas connecte a internet", Toast.LENGTH_LONG).show();
+                    }else{
+                        Intent intent = new Intent(ScoreFragment.this.getActivity(), LoginActivity.class);
+                        intent.putExtra("idtheme", ((ExerciceActivity)ScoreFragment.this.getActivity()).getMytheme().getIdTheme());
+                        intent.putExtra("score", progress);
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -127,10 +137,10 @@ public class ScoreFragment extends Fragment {
                 Fragment myFragment = null;
                 ExerciceActivity exerciceActivity = ((ExerciceActivity) ScoreFragment.this.getActivity());
                 exerciceActivity.resetExercice();
-                if(exerciceActivity.getThemeID() == Constante.themeID_jour){
+                if(exerciceActivity.getMytheme().getIdTheme() == Constante.themeID_jour){
                     myFragment = new WritingFragment();
                 }
-                if(exerciceActivity.getThemeID() == Constante.themeID_nombre){
+                if(exerciceActivity.getMytheme().getIdTheme() == Constante.themeID_nombre){
                     myFragment = new SortingFragment();
                 }
                 FragmentManager fragmentManager = exerciceActivity.getSupportFragmentManager();
@@ -169,30 +179,35 @@ public class ScoreFragment extends Fragment {
         return false;
     }
 
-    public static void saveScore(int score, int idtheme, int iduser, RetrofitInterface retrofitInterface){
+    public void saveScore(int score, int idtheme, String iduser, RetrofitInterface retrofitInterface){
         HashMap<String, Object> map = new HashMap<>();
         map.put("idtheme", idtheme);
         map.put("score", score);
-        map.put("id", ""+iduser);
+        map.put("id", iduser);
 
         Call<User> call = retrofitInterface.saveScore(map);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.code() == 200){
-                    Log.println(Log.VERBOSE, "LOG", "=====SCORE SAVED");
+                    //Log.println(Log.VERBOSE, "LOG", "=====SCORE SAVED");
                     //Toast.makeText(ScoreFragment.this.getActivity().getApplicationContext(), "Score enregistrer", Toast.LENGTH_LONG).show();
                     /*Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);*/
                 }else if(response.code() == 201){
-                    Log.println(Log.VERBOSE, "LOG", "=====SCORE UNSAVED");
+                   // Log.println(Log.VERBOSE, "LOG", "=====SCORE UNSAVED");
                     //Toast.makeText(ScoreFragment.this.getActivity().getApplicationContext(), "Score non enregistrer", Toast.LENGTH_LONG).show();
+
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                String msg = "L'application n'a pas pu se connecter au serveur";
+                if(!Util.isNetworkAvailable(ScoreFragment.this.getActivity())){
+                    msg = "Vous n'etes pas connecte a internet";
+                }
+                Toast.makeText(ScoreFragment.this.getActivity().getApplicationContext(), msg, Toast.LENGTH_LONG).show();
             }
         });
     }
