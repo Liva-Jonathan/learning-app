@@ -18,9 +18,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.learning.R;
 import com.example.learning.controller.ExerciceActivity;
+import com.example.learning.controller.ui.login.LoginActivity;
 import com.example.learning.model.Exercice;
 import com.example.learning.model.Question;
 import com.example.learning.model.ThemeResource;
@@ -169,9 +171,11 @@ public class WritingFragment extends Fragment {
                 if(res){
                     //Log.println(Log.VERBOSE, "RESULT", "===== VRAI");
                     exo.setBonne(exo.getBonne() + 1);
+                    Toast.makeText(WritingFragment.this.getActivity().getApplicationContext(), "Réponse correcte", Toast.LENGTH_SHORT).show();
                 }else{
                     //Log.println(Log.VERBOSE, "RESULT", "===== FAUX");
                     exo.setMauvaise(exo.getMauvaise() + 1);
+                    Toast.makeText(WritingFragment.this.getActivity().getApplicationContext(), "Réponse fausse", Toast.LENGTH_SHORT).show();
                 }
                 exo.setTotale(exo.getTotale() + 1);
                 if(exo.getTotale()>=exo.getFin()){

@@ -5,7 +5,8 @@
     android:id="@+id/dropLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.SortingFragment">
+    tools:context=".fragment.SortingFragment"
+    >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
