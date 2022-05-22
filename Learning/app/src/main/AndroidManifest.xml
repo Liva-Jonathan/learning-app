@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.learning"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.learning">
+
+    <uses-sdk tools:overrideLibrary="com.pierfrancescosoffritti.androidyoutubeplayer" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <uses-sdk tools:overrideLibrary="com.pierfrancescosoffritti.androidyoutubeplayer" />
 
     <queries>
         <intent>
@@ -16,7 +16,6 @@
     </queries>
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
@@ -24,7 +23,11 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Learning">
+        android:theme="@style/Theme.Learning"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".controller.SettingsActivity"
+            android:exported="false" />
         <activity
             android:name=".controller.ui.login.LoginActivity"
             android:exported="false"
@@ -38,10 +41,10 @@
             android:exported="false" />
         <activity
             android:name=".controller.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Learning.NoActionBar"
-            android:configChanges="orientation|screenSize">
+            android:theme="@style/Theme.Learning.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
