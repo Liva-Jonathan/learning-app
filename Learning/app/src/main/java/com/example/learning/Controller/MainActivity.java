@@ -1,23 +1,24 @@
 package com.example.learning.controller;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 
 import com.example.learning.R;
+import com.example.learning.controller.ui.login.LoginActivity;
 import com.example.learning.fragment.DetailsThemeFragment;
 import com.example.learning.fragment.ListThemeFragment;
+import com.example.learning.model.User;
+import com.example.learning.utils.Constante;
 import com.example.learning.utils.DatabaseManager;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.learning.controller.ExerciceActivity;
-import com.example.learning.controller.LearnActivity;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.learning.utils.Serializer;
+import com.example.learning.utils.Util;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.example.learning.databinding.ActivityMainBinding;
 
@@ -40,8 +42,18 @@ public class MainActivity extends AppCompatActivity
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-
+    NavigationView navigationView;
     private DatabaseManager db;
+    private final String filename = Constante.filelog;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +71,9 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        });
         DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+        checkLogMenu();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_menuTheme,
@@ -70,6 +83,8 @@ public class MainActivity extends AppCompatActivity
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         init();
     }
@@ -105,31 +120,34 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Log.println(Log.VERBOSE, "CLICK MENU", "=========YES");
+//        Log.println(Log.VERBOSE, "CLICK MENU", "=========YES");
 
         Fragment fragment = null;
 
         if(item.getItemId() == R.id.nav_menuTheme){
             fragment = new ListThemeFragment();
         }
-        else if(item.getItemId() == R.id.nav_learn){
-            Intent intent = new Intent(this, LearnActivity.class);
+        else if(item.getItemId() == R.id.nav_settings){
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
-        else if(item.getItemId() == R.id.nav_exerciceWriting){
-            Intent intent = new Intent(this, ExerciceActivity.class);
-            intent.putExtra("TYPEEXO", item.getItemId());
-            startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.nav_exerciceSorting){
-            Intent intent = new Intent(this, ExerciceActivity.class);
-            intent.putExtra("TYPEEXO", item.getItemId());
-            startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.nav_exerciceDragging){
-            Intent intent = new Intent(this, ExerciceActivity.class);
-            intent.putExtra("TYPEEXO", item.getItemId());
-            startActivity(intent);
+        else if(item.getItemId() == R.id.nav_log){
+            if(Util.isNetworkAvailable(this)){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }else{
+                Toast.makeText(MainActivity.this.getApplicationContext(), "Vous n'êtes pas connecté à internet", Toast.LENGTH_LONG).show();
+            }
+
+        }else if(item.getItemId() == R.id.nav_logout){
+            if(Util.isNetworkAvailable(this)){
+                Serializer.logout(filename, this);
+                checkLogMenu();
+                finish();
+                startActivity(getIntent());
+            }else{
+                Toast.makeText(MainActivity.this.getApplicationContext(), "Vous n'êtes pas connecté à internet", Toast.LENGTH_LONG).show();
+            }
         }
 
         openFragment(fragment, true);
@@ -140,7 +158,17 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-//    @Override
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //    @Override
 //    public void onBackPressed(){
 //        FragmentManager fm = getFragmentManager();
 //        if (fm.getBackStackEntryCount() > 0) {
@@ -166,5 +194,41 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteractionChangeTitle(String title) {
         getSupportActionBar().setTitle(title);
+    }
+
+    public void checkLogMenu(){
+        boolean auth = checkAuth();
+        //Log.println(Log.VERBOSE, "MENU", "CHECK LOG");
+        if(auth){
+            navigationView.getMenu().findItem(R.id.nav_log).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+            if(navigationView.getHeaderCount() > 0){
+                ((TextView)navigationView.getHeaderView(0).findViewById(R.id.userlog)).setText(getUser().getEmail());
+                navigationView.getHeaderView(0).setVisibility(View.VISIBLE);
+            }
+        }else{
+            navigationView.getMenu().findItem(R.id.nav_log).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
+            if(navigationView.getHeaderCount() > 0){
+                ((TextView)navigationView.getHeaderView(0).findViewById(R.id.userlog)).setText("");
+                navigationView.getHeaderView(0).setVisibility(View.INVISIBLE);
+            }
+            setUser(null);
+        }
+    }
+
+    public boolean checkAuth(){
+        User u =(User) Serializer.deSerialize(filename, this);
+        if(u != null){
+            //Log.println(Log.VERBOSE, "MENU", "USER NOT NULL");
+            if(u.getEmail() != null){
+                //Log.println(Log.VERBOSE, "MENU", "USER Exist");
+                setUser(u);
+                return true;
+            }
+            //Log.println(Log.VERBOSE, "MENU", "USER NOT EXIST");
+        }
+        //Log.println(Log.VERBOSE, "MENU", "USER NULL");
+        return false;
     }
 }

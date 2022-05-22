@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
     tools:context=".fragment.DetailsThemeFragment">
 
     <RelativeLayout
@@ -44,11 +42,11 @@
         android:textSize="18sp"
         android:textStyle="normal" />
 
-    <VideoView
-        android:id="@+id/videoView"
+    <FrameLayout
+        android:id="@+id/youtube_video_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.9" />
+        android:layout_weight="0.9"/>
 
     <LinearLayout
         android:layout_width="match_parent"
