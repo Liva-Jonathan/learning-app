@@ -102,9 +102,11 @@ public class SortingFragment extends Fragment {
                     if(res){
                         //Log.println(Log.VERBOSE, "RESULT", "===== VRAI");
                         exo.setBonne(exo.getBonne() + 1);
+                        Toast.makeText(SortingFragment.this.getActivity().getApplicationContext(), "Réponse correcte", Toast.LENGTH_SHORT).show();
                     }else{
                         //Log.println(Log.VERBOSE, "RESULT", "===== FAUX");
                         exo.setMauvaise(exo.getMauvaise() + 1);
+                        Toast.makeText(SortingFragment.this.getActivity().getApplicationContext(), "Réponse fausse", Toast.LENGTH_SHORT).show();
                     }
                     exo.setTotale(exo.getTotale() + 1);
                     if(exo.getTotale()>=exo.getFin()){
