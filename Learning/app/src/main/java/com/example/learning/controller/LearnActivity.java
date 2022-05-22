@@ -42,9 +42,9 @@ public class LearnActivity extends AppCompatActivity {
         bundle.putSerializable("theme", getMytheme());
         myFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.learnfragment, myFragment).commit();
-        getSupportActionBar().setTitle("Apprendre les '"+getMytheme().getName() + "'");
+        getSupportActionBar().setTitle("Apprendre: "+getMytheme().getName());
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFBB86FC")));
+//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFBB86FC")));
         init();
     }
 

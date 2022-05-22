@@ -79,9 +79,9 @@ public class ExerciceActivity extends AppCompatActivity {
         bundle.putString("categorie", myMessage );
         myFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.exercicefragment, myFragment).commit();
-        getSupportActionBar().setTitle("Exercice :'"+getMytheme().getName() + "'");
+        getSupportActionBar().setTitle("Exercice : "+getMytheme().getName());
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFBB86FC")));
+//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFBB86FC")));
         init();
     }
 
