@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             }else{
-                Toast.makeText(MainActivity.this.getApplicationContext(), "Vous n'etes pas connecte a internet", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this.getApplicationContext(), "Vous n'êtes pas connecté à internet", Toast.LENGTH_LONG).show();
             }
 
         }else if(item.getItemId() == R.id.nav_logout){
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity
                 finish();
                 startActivity(getIntent());
             }else{
-                Toast.makeText(MainActivity.this.getApplicationContext(), "Vous n'etes pas connecte a internet", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this.getApplicationContext(), "Vous n'êtes pas connecté à internet", Toast.LENGTH_LONG).show();
             }
         }
 
