@@ -60,7 +60,7 @@ public class WritingFragment extends Fragment {
         outputZone = (LinearLayout) rootView.findViewById(R.id.outputZone);
         typingZone = (LinearLayout) rootView.findViewById(R.id.typingZone);
         textWriting = (TextView) rootView.findViewById(R.id.textWriting);
-        textWriting.setText("Allo");
+        //textWriting.setText("Allo");
         submitWriting = (Button)rootView.findViewById(R.id.submitWriting);
         init();
         return rootView;
@@ -133,7 +133,7 @@ public class WritingFragment extends Fragment {
     private void addLetter(Button btn, Context context){
         btn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Log.println(Log.VERBOSE, "TYPELETTER", "==== id "+btn.getId());
+                //Log.println(Log.VERBOSE, "TYPELETTER", "==== id "+btn.getId());
                 btn.setVisibility(View.INVISIBLE);
                 Button btnTagOut = setKeyboard(btn.getText().toString(), btn.getId(), context, -1);
                 removeLetter(btnTagOut, context);
@@ -146,7 +146,7 @@ public class WritingFragment extends Fragment {
     private void removeLetter(Button btn, Context context){
         btn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Log.println(Log.VERBOSE, "REMOVELETTER", "==== id "+btn.getId());
+                //Log.println(Log.VERBOSE, "REMOVELETTER", "==== id "+btn.getId());
                 //Log.println(Log.VERBOSE, "WIDTH", "==f==zf"+button.getLayoutParams().width);
                 ((ViewManager)btn.getParent()).removeView(btn);
                 typingZone.findViewById(btn.getId()).setVisibility(View.VISIBLE);
@@ -167,10 +167,10 @@ public class WritingFragment extends Fragment {
                 boolean res = activity.checkReponse(WritingFragment.this.getQuestion(), resultOutput);
                 Exercice exo = activity.getExercice();
                 if(res){
-                    Log.println(Log.VERBOSE, "RESULT", "===== VRAI");
+                    //Log.println(Log.VERBOSE, "RESULT", "===== VRAI");
                     exo.setBonne(exo.getBonne() + 1);
                 }else{
-                    Log.println(Log.VERBOSE, "RESULT", "===== FAUX");
+                    //Log.println(Log.VERBOSE, "RESULT", "===== FAUX");
                     exo.setMauvaise(exo.getMauvaise() + 1);
                 }
                 exo.setTotale(exo.getTotale() + 1);

@@ -128,7 +128,8 @@ public class DetailsThemeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(main, LearnActivity.class);
-                intent.putExtra("theme", getTheme().getIdTheme());
+                //intent.putExtra("theme", getTheme().getIdTheme());
+                intent.putExtra("theme", getTheme());
                 startActivity(intent);
             }
         });
@@ -137,7 +138,8 @@ public class DetailsThemeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(main, ExerciceActivity.class);
-                intent.putExtra("theme", getTheme().getIdTheme());
+                //intent.putExtra("theme", getTheme().getIdTheme());
+                intent.putExtra("theme", getTheme());
                 startActivity(intent);
             }
         });

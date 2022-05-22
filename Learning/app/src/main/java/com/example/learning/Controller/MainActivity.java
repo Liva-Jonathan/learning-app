@@ -10,11 +10,15 @@ import com.example.learning.controller.ui.login.LoginActivity;
 import com.example.learning.fragment.DetailsThemeFragment;
 import com.example.learning.fragment.ListThemeFragment;
 import com.example.learning.model.User;
+import com.example.learning.utils.Constante;
 import com.example.learning.utils.DatabaseManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.learning.utils.Serializer;
+import com.example.learning.utils.Util;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -40,7 +44,16 @@ public class MainActivity extends AppCompatActivity
     private ActivityMainBinding binding;
     NavigationView navigationView;
     private DatabaseManager db;
-    private final String filename = "log";
+    private final String filename = Constante.filelog;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +120,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Log.println(Log.VERBOSE, "CLICK MENU", "=========YES");
+//        Log.println(Log.VERBOSE, "CLICK MENU", "=========YES");
 
         Fragment fragment = null;
 
@@ -119,12 +132,22 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.nav_log){
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("TYPEEXO", item.getItemId());
-            startActivity(intent);
+            if(Util.isNetworkAvailable(this)){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }else{
+                Toast.makeText(MainActivity.this.getApplicationContext(), "Vous n'etes pas connecte a internet", Toast.LENGTH_LONG).show();
+            }
+
         }else if(item.getItemId() == R.id.nav_logout){
-            Serializer.logout(filename, this);
-            checkLogMenu();
+            if(Util.isNetworkAvailable(this)){
+                Serializer.logout(filename, this);
+                checkLogMenu();
+                finish();
+                startActivity(getIntent());
+            }else{
+                Toast.makeText(MainActivity.this.getApplicationContext(), "Vous n'etes pas connecte a internet", Toast.LENGTH_LONG).show();
+            }
         }
 
         openFragment(fragment, true);
@@ -175,22 +198,37 @@ public class MainActivity extends AppCompatActivity
 
     public void checkLogMenu(){
         boolean auth = checkAuth();
+        //Log.println(Log.VERBOSE, "MENU", "CHECK LOG");
         if(auth){
             navigationView.getMenu().findItem(R.id.nav_log).setVisible(false);
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+            if(navigationView.getHeaderCount() > 0){
+                ((TextView)navigationView.getHeaderView(0).findViewById(R.id.userlog)).setText(getUser().getEmail());
+                navigationView.getHeaderView(0).setVisibility(View.VISIBLE);
+            }
         }else{
             navigationView.getMenu().findItem(R.id.nav_log).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
+            if(navigationView.getHeaderCount() > 0){
+                ((TextView)navigationView.getHeaderView(0).findViewById(R.id.userlog)).setText("");
+                navigationView.getHeaderView(0).setVisibility(View.INVISIBLE);
+            }
+            setUser(null);
         }
     }
 
     public boolean checkAuth(){
         User u =(User) Serializer.deSerialize(filename, this);
         if(u != null){
+            //Log.println(Log.VERBOSE, "MENU", "USER NOT NULL");
             if(u.getEmail() != null){
+                //Log.println(Log.VERBOSE, "MENU", "USER Exist");
+                setUser(u);
                 return true;
             }
+            //Log.println(Log.VERBOSE, "MENU", "USER NOT EXIST");
         }
+        //Log.println(Log.VERBOSE, "MENU", "USER NULL");
         return false;
     }
 }

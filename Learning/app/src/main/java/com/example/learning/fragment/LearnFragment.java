@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.learning.R;
 import com.example.learning.controller.LearnActivity;
+import com.example.learning.model.Theme;
 import com.example.learning.model.ThemeResource;
 import com.example.learning.utils.Util;
 
@@ -31,10 +32,16 @@ public class LearnFragment extends Fragment {
     private TextView libellePrev;
     private TextView libelleNext;
     private ThemeResource theme;
-    private int themeID;
+    private Theme mytheme;
+    private View rootView;
 
-    public int getThemeID(){
-        return this.themeID;
+
+    public Theme getMytheme() {
+        return mytheme;
+    }
+
+    public void setMytheme(Theme mytheme) {
+        this.mytheme = mytheme;
     }
 
     public void loadAudio(){
@@ -71,11 +78,12 @@ public class LearnFragment extends Fragment {
                              Bundle savedInstanceState) {
         PACKAGE_NAME = getActivity().getApplicationContext().getPackageName();
 
-        themeID = getArguments().getInt("theme");
+        //themeID = getArguments().getInt("theme");
+        mytheme = (Theme)getArguments().get("theme");
 
-        ThemeResource them = ((LearnActivity)this.getActivity()).getThemeResourceFirst(getThemeID());
+        ThemeResource them = ((LearnActivity)this.getActivity()).getThemeResourceFirst(getMytheme().getIdTheme());
 
-        View rootView = inflater.inflate(R.layout.fragment_learn, container, false);
+        rootView = inflater.inflate(R.layout.fragment_learn, container, false);
 
         image = (ImageView) rootView.findViewById(R.id.learnImage);
         libelle = (TextView) rootView.findViewById(R.id.learnLibelle);
@@ -87,6 +95,7 @@ public class LearnFragment extends Fragment {
 
         // Inflate the layout for this fragment
         setTheme(them);
+
         return rootView;
     }
 
@@ -102,7 +111,7 @@ public class LearnFragment extends Fragment {
         LearnActivity learnActivity = ((LearnActivity)this.getActivity());
         btn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Log.println(Log.VERBOSE, "CLICK","===========NEXT" );
+                //Log.println(Log.VERBOSE, "CLICK","===========NEXT" );
                 ThemeResource them = learnActivity.getThemeResource(id);
                 setTheme(them);
             }
@@ -136,8 +145,7 @@ public class LearnFragment extends Fragment {
             libelleNext.setVisibility(View.VISIBLE);
             setTheme(next, this.getTheme().getNext().getIdThemeResource());
         }
-
-
+        play(rootView);
     }
 
     public ThemeResource getTheme() {

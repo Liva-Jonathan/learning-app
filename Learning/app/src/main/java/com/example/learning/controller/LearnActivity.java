@@ -4,25 +4,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.learning.R;
 import com.example.learning.fragment.LearnFragment;
+import com.example.learning.model.Theme;
 import com.example.learning.model.ThemeResource;
 import com.example.learning.utils.DatabaseManager;
 
 public class LearnActivity extends AppCompatActivity {
     private DatabaseManager db;
-    private int themeID;
+    private Theme mytheme;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            themeID = extras.getInt("theme");
+            //themeID = extras.getInt("theme");
+            mytheme = (Theme)extras.get("theme");
+
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
@@ -30,9 +38,13 @@ public class LearnActivity extends AppCompatActivity {
         final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         final LearnFragment myFragment = new LearnFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("theme", getThemeID());
+        //bundle.putInt("theme", getThemeID());
+        bundle.putSerializable("theme", getMytheme());
         myFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.learnfragment, myFragment).commit();
+        getSupportActionBar().setTitle("Apprendre les '"+getMytheme().getName() + "'");
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFBB86FC")));
         init();
     }
 
@@ -58,8 +70,8 @@ public class LearnActivity extends AppCompatActivity {
                 "where b.resOrder between (d.resOrder - 1) and (d.resOrder + 1) order by b.resOrder asc limit 3";
         Cursor curseur = getDb().getReadableDatabase().rawQuery(req, null);
         int nb_result = curseur.getCount();
-        Log.println(Log.VERBOSE, "REQUETE", "========="+req);
-        Log.println(Log.VERBOSE, "REQUETE-RESULT", "====count "+nb_result);
+        //Log.println(Log.VERBOSE, "REQUETE", "========="+req);
+        //Log.println(Log.VERBOSE, "REQUETE-RESULT", "====count "+nb_result);
         ThemeResource prev = null;
         ThemeResource next = null;
         if(nb_result == 3){
@@ -93,8 +105,8 @@ public class LearnActivity extends AppCompatActivity {
         return result;
     }
 
-    public int getThemeID(){
-        return themeID;
+    public Theme getMytheme() {
+        return mytheme;
     }
 
     public ThemeResource getThemeResourceFirst(int id){
@@ -106,8 +118,8 @@ public class LearnActivity extends AppCompatActivity {
                 "where b.resOrder between (d.resOrder - 1) and (d.resOrder + 1) order by b.resOrder asc";
         Cursor curseur = getDb().getReadableDatabase().rawQuery(req, null);
         int nb_result = curseur.getCount();
-        Log.println(Log.VERBOSE, "REQUETE", "========="+req);
-        Log.println(Log.VERBOSE, "REQUETE-RESULT", "====count "+nb_result);
+        //Log.println(Log.VERBOSE, "REQUETE", "========="+req);
+        //Log.println(Log.VERBOSE, "REQUETE-RESULT", "====count "+nb_result);
         ThemeResource next = null;
         if(nb_result == 2){
             curseur.moveToNext();

@@ -28,8 +28,10 @@ import com.example.learning.controller.MainActivity;
 import com.example.learning.databinding.ActivityLoginBinding;
 import com.example.learning.fragment.ScoreFragment;
 import com.example.learning.model.User;
+import com.example.learning.utils.Constante;
 import com.example.learning.utils.RetrofitInterface;
 import com.example.learning.utils.Serializer;
+import com.example.learning.utils.Util;
 
 import java.util.HashMap;
 
@@ -44,16 +46,15 @@ public class LoginActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
-    private String BASE_URL = "http://192.168.88.16:1010";
+    private final String BASE_URL = Constante.API_URL;
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
-    private Button buttonSave;
-    private final String filename = "log";
+    private final String filename = Constante.filelog;
     private boolean saveScore = false;
     private int idTheme;
     private int score;
-    private int idUser;
+    private String idUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,24 +149,11 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        buttonSave = this.findViewById(R.id.buttonSave);
-        buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.println(Log.VERBOSE, "SAVESCORE", "====SAVED");
-                //saveScore();
-            }
-        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.println(Log.VERBOSE, "LOG", "====I'M LOGGED");
+                //Log.println(Log.VERBOSE, "LOG", "====I'M LOGGED");
                 login();
-                if(saveScore){
-                    Log.println(Log.VERBOSE, "LOG", "====I'M LOGGED and SCORE IS SAVED");
-                    //ScoreFragment.saveScore(score, idTheme, idUser, LoginActivity.this.retrofitInterface);
-                }
                 //loadingProgressBar.setVisibility(View.VISIBLE);
                 /*loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());*/
@@ -186,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login(){
         String email = usernameEditText.getText().toString();
         String mdp = passwordEditText.getText().toString();
-        Log.println(Log.VERBOSE, "LOG", "=====EMAIL "+ email +"==PASSWORD "+mdp);
+        //Log.println(Log.VERBOSE, "LOG", "=====EMAIL "+ email +"==PASSWORD "+mdp);
         HashMap<String, Object> map = new HashMap<>();
         map.put("email", email);
         map.put("mdp", mdp);
@@ -197,20 +185,32 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.code() == 200){
                     User userlog = response.body();
-                    idUser = new Integer(userlog.get_id());
-                    Log.println(Log.VERBOSE, "LOG", "=====USER LOGGED "+userlog.getEmail()+"/"+userlog.getMdp());
-                    Toast.makeText(LoginActivity.this.getApplicationContext(), "Connecté", Toast.LENGTH_LONG).show();
+                    idUser = userlog.get_id();
+                    //Log.println(Log.VERBOSE, "LOG", "=====USER LOGGED "+userlog.getEmail()+"/"+userlog.getMdp() + "id: "+userlog.get_id());
+                    //Log.println(Log.VERBOSE, "LOG", "====SCORE "+score );
+                    String msg = "Hello "+userlog.getEmail();
                     Serializer.serialize(filename, userlog, LoginActivity.this);
+                    if(saveScore){
+                        //Log.println(Log.VERBOSE, "LOG", "====I'M LOGGED and SCORE IS SAVED");
+                        //Log.println(Log.VERBOSE, "LOG", "====SCORE "+score + " // theme "+idTheme + " /// user "+idUser);
+                        (new ScoreFragment()).saveScore(score, idTheme, idUser, LoginActivity.this.retrofitInterface);
+                        msg = userlog.getEmail() + ", score enregisté";
+                    }
+                    Toast.makeText(LoginActivity.this.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else if(response.code() == 201){
-                    Log.println(Log.VERBOSE, "LOG", "=====LOG FAILED");
+                    Toast.makeText(LoginActivity.this.getApplicationContext(), response.message(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                String msg = "L'application n'a pas pu se connecter au serveur";
+                if(!Util.isNetworkAvailable(LoginActivity.this)){
+                    msg = "Vous n'etes pas connecte a internet";
+                }
+                Toast.makeText(LoginActivity.this.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
             }
         });
     }

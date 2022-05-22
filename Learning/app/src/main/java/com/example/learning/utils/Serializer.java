@@ -3,6 +3,8 @@ package com.example.learning.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.learning.model.User;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -61,7 +63,9 @@ public abstract class Serializer {
             ObjectOutputStream cos;
             try{
                 cos = new ObjectOutputStream(file);
-                cos.write(new String("").getBytes());
+                User u = null;
+                cos.writeObject(u);
+                //cos.write(new String("").getBytes());
                 cos.flush();
                 cos.close();
             }catch (IOException iex){

@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.database.Cursor;
 import android.media.MediaPlayer;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -30,7 +32,7 @@ import java.util.List;
 
 public class ExerciceActivity extends AppCompatActivity {
     private DatabaseManager db;
-    private int themeID;
+    private Theme mytheme;
     private Exercice exercice;
 
     public Exercice getExercice() {
@@ -48,26 +50,27 @@ public class ExerciceActivity extends AppCompatActivity {
         resetExercice();
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            themeID = extras.getInt("theme");
+            //themeID = extras.getInt("theme");
+            mytheme = (Theme)extras.get("theme");
         }
-        Log.println(Log.VERBOSE, "THEMEEXO", "===NOM  == id "+themeID);
+        //Log.println(Log.VERBOSE, "THEMEEXO", "===NOM  == id "+themeID);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercice);
         FragmentManager fragmentManager = getSupportFragmentManager();
         final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if(getThemeID() == Constante.themeID_jour){
+        if(getMytheme().getIdTheme() == Constante.themeID_jour){
             myFragment = new WritingFragment();
         }
-        if(getThemeID() == Constante.themeID_nombre){
+        if(getMytheme().getIdTheme() == Constante.themeID_nombre){
             myFragment = new SortingFragment();
         }
-        if(getThemeID() == Constante.themeID_forme){
+        if(getMytheme().getIdTheme() == Constante.themeID_forme){
             myFragment = new DraggingFragment();
         }
-        if(getThemeID() == Constante.themeID_alphabet) {
+        if(getMytheme().getIdTheme() == Constante.themeID_alphabet) {
             myFragment = new ChooseImageFragment();
         }
-        if(getThemeID() == Constante.themeID_couleur) {
+        if(getMytheme().getIdTheme() == Constante.themeID_couleur) {
             myFragment = new ChooseWordFragment();
         }
 
@@ -76,6 +79,9 @@ public class ExerciceActivity extends AppCompatActivity {
         bundle.putString("categorie", myMessage );
         myFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.exercicefragment, myFragment).commit();
+        getSupportActionBar().setTitle("Exercice :'"+getMytheme().getName() + "'");
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFBB86FC")));
         init();
     }
 
@@ -83,8 +89,12 @@ public class ExerciceActivity extends AppCompatActivity {
         this.exercice = exercice;
     }
 
-    public int getThemeID(){
-        return this.themeID;
+    public Theme getMytheme() {
+        return mytheme;
+    }
+
+    public void setMytheme(Theme mytheme) {
+        this.mytheme = mytheme;
     }
 
     public DatabaseManager getDbManager() {
@@ -109,7 +119,7 @@ public class ExerciceActivity extends AppCompatActivity {
     public ThemeResource getRandTheme(){
         ThemeResource result = null;
         String req = "SELECT * FROM T_themeResource\n" +
-                "where idTheme = "+this.getThemeID()+"\n" +
+                "where idTheme = "+this.getMytheme().getIdTheme()+"\n" +
                 "ORDER BY random() \n" +
                 "LIMIT 1;";
         Cursor curseur = getDb().getReadableDatabase().rawQuery(req, null);
@@ -125,7 +135,7 @@ public class ExerciceActivity extends AppCompatActivity {
     public ThemeResource [] getRandTheme(int nb){
         ThemeResource[]result = null;
         String req = "SELECT * FROM T_themeResource\n" +
-                "where idTheme = "+this.getThemeID()+"\n" +
+                "where idTheme = "+this.getMytheme().getIdTheme()+"\n" +
                 "ORDER BY random() \n" +
                 "LIMIT "+nb;
         Cursor curseur = getDb().getReadableDatabase().rawQuery(req, null);
@@ -214,7 +224,7 @@ public class ExerciceActivity extends AppCompatActivity {
                 "\tfrom T_question\n" +
                 "\tjoin T_themeResource\n" +
                 "\ton T_question.idThemeResource = T_themeResource.idThemeResource\n" +
-                "\twhere T_themeResource.idTheme = \n"+this.getThemeID() +
+                "\twhere T_themeResource.idTheme = \n"+this.getMytheme().getIdTheme() +
                 "\tORDER BY random()\n" +
                 "\tlimit 1";
         Log.println(Log.VERBOSE, "REQUETE", "========="+req);
