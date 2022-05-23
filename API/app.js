@@ -6,10 +6,10 @@ const { Users } = require('./model');
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 const app = express();
 const API_url = "/API";
-const DB_url = 'mongodb://localhost:27017/learning';
-const DB_urlPROD = 'mongodb+srv://nanando:Ar12252831@refresh-mongodb.ysocs.mongodb.net/e-kaly-preprod?retryWrites=true&w=majority';
-app.listen(1010  , function(){ 
-    console.log("listening on 1010");
+const DB_url = 'mongodb+srv://learning:learning@clusterlearningapp.ajxgy.mongodb.net/?retryWrites=true&w=majority';
+const DB_urlPROD = 'mongodb+srv://learning:learning@clusterlearningapp.ajxgy.mongodb.net/?retryWrites=true&w=majority';
+app.listen(process.env.PORT, function(){
+    console.log("listening on " + process.env.PORT);
 });
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -24,7 +24,7 @@ app.use(function(req, res, next) {
 });
 
 mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).then(client=>{
-    console.log('Connected to Database Mongoose');  
+    console.log('Connected to Database Mongoose');
 
     app.post(API_url+'/login', (req, res) => {
         console.log(req.body.email +"/"+req.body.mdp);
@@ -32,12 +32,12 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
         Users.findOne({
             $and:[
                 {
-                    email: req.body.email 
+                    email: req.body.email
                 },
-    
+
                 {
-                    mdp: utils.crypt(req.body.mdp) 
-                }                
+                    mdp: utils.crypt(req.body.mdp)
+                }
             ]
         })
         .then(result => {
@@ -51,15 +51,15 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
                 res.status(200);
             }else{
                 res.statusMessage = "Connexion echouee";
-                res.status(201);                
+                res.status(201);
             }
             res.send(JSON.stringify(result));
 
-            //res.json(send);            
+            //res.json(send);
         })
-        .catch(error => console.error(error))    
+        .catch(error => console.error(error))
     });
-    
+
     app.post(API_url+'/signup', (req, res) => {
         console.log(req.body.email +"/"+req.body.mdp);
         console.log("ORIGIN: "+req.body.origin);
@@ -75,12 +75,12 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
                 message: "success",
                 data: result
             };
-            res.json(send);            
+            res.json(send);
         })
-        .catch(error => console.error(error))    
+        .catch(error => console.error(error))
     });
 
-    app.put(API_url+'/save-score', (req, res) => {        
+    app.put(API_url+'/save-score', (req, res) => {
         var userUpdate = {};
             var addScore = {};
             addScore = {
@@ -90,8 +90,8 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
                     "daty": new Date()
                 }
             };
-            userUpdate['$push'] = addScore;                     
-        Users.findByIdAndUpdate(req.body.id, 
+            userUpdate['$push'] = addScore;
+        Users.findByIdAndUpdate(req.body.id,
             userUpdate)
             .then(results =>{
                 console.log(results);
@@ -100,15 +100,15 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
                     res.status(200);
                 }else{
                     res.statusMessage = "Connexion echouee";
-                    res.status(201);                
+                    res.status(201);
                 }
-                res.send(JSON.stringify(results));                
+                res.send(JSON.stringify(results));
                 //res.json(send);
             })
             .catch(console.error);
     });
 
-    app.get(API_url+'/historique/:id', (req, res) =>{  
+    app.get(API_url+'/historique/:id', (req, res) =>{
         Users.findById(req.params.id)
         .then(result => {
             console.log(result);
@@ -117,9 +117,9 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
                 message: "success",
                 data: result
             };
-            res.json(send);            
+            res.json(send);
         })
-        .catch(error => console.error(error))    
-    });                
+        .catch(error => console.error(error))
+    });
 
 });
