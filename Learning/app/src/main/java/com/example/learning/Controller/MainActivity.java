@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private DatabaseManager db;
     private final String filename = Constante.filelog;
     private User user;
+    private NavController nav;
 
     public User getUser() {
         return user;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        nav = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         setSupportActionBar(binding.appBarMain.toolbar);
 //        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -124,8 +126,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(nav, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
 
