@@ -34,8 +34,10 @@ public class SortingFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     Button submitSorting;
+    Button nextSorting;
     TextView textSorting;
     ItemTouchHelper.SimpleCallback simpleCallback;
+    View rootView;
     int order;
     List<ThemeResource> themeList;
 
@@ -59,11 +61,12 @@ public class SortingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_sorting, container, false);
+        rootView = inflater.inflate(R.layout.fragment_sorting, container, false);
 
         textSorting = rootView.findViewById(R.id.textSorting);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         submitSorting = (Button) rootView.findViewById(R.id.submitSorting);
+        nextSorting = (Button) rootView.findViewById(R.id.nextSorting);
 
         init();
         return rootView;
@@ -112,7 +115,9 @@ public class SortingFragment extends Fragment {
                     if(exo.getTotale()>=exo.getFin()){
                         activity.showScore();
                     }else{
-                        init();
+                        //init();
+                        submitSorting.setVisibility(View.INVISIBLE);
+                        nextSorting.setVisibility(View.VISIBLE);
                     }
             }
         });
@@ -135,7 +140,7 @@ public class SortingFragment extends Fragment {
             themeList.add(tab[i]);
         }
         submit();
-
+        submitSorting.setVisibility(View.VISIBLE);
         if(recyclerAdapter == null){
             recyclerAdapter = new RecyclerAdapter(themeList);
 
@@ -155,6 +160,13 @@ public class SortingFragment extends Fragment {
             recyclerAdapter.notifyDataSetChanged();
         }
         textSorting.setText("Remettre dans l'ordre "+this.getLibelleOrder());
+        nextSorting.setVisibility(View.INVISIBLE);
+        nextSorting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SortingFragment.this.init();
+            }
+        });
     }
 
 }
