@@ -1,10 +1,13 @@
 package com.example.learning.fragment;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.gridlayout.widget.GridLayout;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,9 +28,11 @@ import android.view.ViewStub;
 import com.example.learning.R;
 import com.example.learning.adapter.ListThemeAdapter;
 import com.example.learning.controller.MainActivity;
+import com.example.learning.controller.SettingsActivity;
 import com.example.learning.model.Theme;
 import com.example.learning.utils.DatabaseManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +51,8 @@ public class ListThemeFragment extends Fragment implements ListThemeAdapter.OnTh
 
     private ListThemeAdapter adapter;
     private List<Theme> themes;
+
+    private MediaPlayer mediaPlayer;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,6 +92,8 @@ public class ListThemeFragment extends Fragment implements ListThemeAdapter.OnTh
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mediaPlayer = MediaPlayer.create(getActivity(), R.raw.abc);
+        mediaPlayer.setLooping(true);
     }
 
     @Override
@@ -137,6 +147,23 @@ public class ListThemeFragment extends Fragment implements ListThemeAdapter.OnTh
         void onFragmentInteractionChangeTitle(String title);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean sound = sharedPreferences.getBoolean("sound", true);
+
+        Log.d("SOUND", "setting sound: " + sound);
+        if(sound) {
+            mediaPlayer.start();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mediaPlayer.isPlaying()) mediaPlayer.pause();
+    }
 
     public DatabaseManager getDbManager() {
         return dbManager;
@@ -154,8 +181,4 @@ public class ListThemeFragment extends Fragment implements ListThemeAdapter.OnTh
         this.themes = themes;
     }
 
-    //        FragmentTransaction ft = ((MainActivity) getContext()).getSupportFragmentManager().beginTransaction();
-//        ft.add(R.id.grid, CardThemeFragment.newInstance());
-//        ft.add(R.id.grid, cardThemeFragment);
-//    ft.commit();
 }
