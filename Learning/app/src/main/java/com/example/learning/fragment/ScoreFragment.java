@@ -79,7 +79,7 @@ public class ScoreFragment extends Fragment {
             public void run() {
                 while(status < progress){
                     status++;
-                    android.os.SystemClock.sleep(progress);
+                    android.os.SystemClock.sleep(10);
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {

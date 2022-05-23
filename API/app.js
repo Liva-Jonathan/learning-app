@@ -117,7 +117,13 @@ mongoose.connect(DB_url, { useNewUrlParser: true, useUnifiedTopology: true }).th
                 message: "success",
                 data: result
             };
-            res.json(send);
+            if(result != null){
+                res.status(200);
+            }else{
+                res.statusMessage = "Connexion echouee";
+                res.status(201);                
+            }
+            res.send(JSON.stringify(result));
         })
         .catch(error => console.error(error))
     });
