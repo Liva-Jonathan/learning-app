@@ -12,11 +12,14 @@ android {
         versionCode 1
         versionName "1.0"
 
+        multiDexEnabled true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
+            crunchPngs false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -50,6 +53,8 @@ dependencies {
 //    implementation 'com.takisoft.fix:preference-v7:25.3.0.0'
     implementation "androidx.legacy:legacy-preference-v14:1.0.0"
     implementation "androidx.preference:preference:1.0.0"
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.android.support:multidex:1.0.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

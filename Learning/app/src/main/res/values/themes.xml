@@ -24,4 +24,5 @@
     <style name="Theme.Learning.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Learning.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

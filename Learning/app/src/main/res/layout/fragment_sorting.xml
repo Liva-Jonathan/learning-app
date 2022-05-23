@@ -5,7 +5,8 @@
     android:id="@+id/dropLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.SortingFragment">
+    tools:context=".fragment.SortingFragment"
+    >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,6 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView"
@@ -46,5 +48,15 @@
             android:text="Valider"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="136dp" />
+
+        <Button
+            android:id="@+id/nextSorting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continuer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submitSorting" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

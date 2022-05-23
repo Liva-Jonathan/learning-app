@@ -1,6 +1,12 @@
 package com.example.learning.controller;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,6 +15,7 @@ import com.example.learning.R;
 import com.example.learning.controller.ui.login.LoginActivity;
 import com.example.learning.fragment.DetailsThemeFragment;
 import com.example.learning.fragment.ListThemeFragment;
+import com.example.learning.fragment.SettingsFragment;
 import com.example.learning.model.User;
 import com.example.learning.utils.Constante;
 import com.example.learning.utils.DatabaseManager;
@@ -17,6 +24,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.learning.utils.ReminderBroadcast;
 import com.example.learning.utils.Serializer;
 import com.example.learning.utils.Util;
 import com.google.android.material.navigation.NavigationView;
@@ -46,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private DatabaseManager db;
     private final String filename = Constante.filelog;
     private User user;
+    private NavController nav;
 
     public User getUser() {
         return user;
@@ -62,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        nav = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         setSupportActionBar(binding.appBarMain.toolbar);
 //        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -86,6 +96,17 @@ public class MainActivity extends AppCompatActivity
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+        this.createNotificationChannel();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        boolean reminder = sharedPreferences.getBoolean("reminder", true);
+        int hourReminder = sharedPreferences.getInt("hourReminder", 8);
+        int minuteReminder = sharedPreferences.getInt("minuteReminder", 0);
+        if(reminder){
+            SettingsFragment.setupNotification(this, hourReminder, minuteReminder);
+        }
+
         init();
     }
 
@@ -105,8 +126,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(nav, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
 
@@ -231,4 +252,20 @@ public class MainActivity extends AppCompatActivity
         //Log.println(Log.VERBOSE, "MENU", "USER NULL");
         return false;
     }
+
+    private void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "LearningReminderChannel";
+            String description = "Channel for Learning Reminder";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifReminder", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+
+
 }

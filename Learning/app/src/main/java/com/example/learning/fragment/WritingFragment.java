@@ -18,9 +18,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.learning.R;
 import com.example.learning.controller.ExerciceActivity;
+import com.example.learning.controller.ui.login.LoginActivity;
 import com.example.learning.model.Exercice;
 import com.example.learning.model.Question;
 import com.example.learning.model.ThemeResource;
@@ -38,6 +40,7 @@ public class WritingFragment extends Fragment {
     private LinearLayout outputZone;
     private TextView textWriting;
     private Button submitWriting;
+    private Button nextWriting;
     private Character [] letters = new Character[12];
     private Question question;
 
@@ -62,6 +65,7 @@ public class WritingFragment extends Fragment {
         textWriting = (TextView) rootView.findViewById(R.id.textWriting);
         //textWriting.setText("Allo");
         submitWriting = (Button)rootView.findViewById(R.id.submitWriting);
+        nextWriting = (Button)rootView.findViewById(R.id.nextWriting);
         init();
         return rootView;
     }
@@ -169,15 +173,20 @@ public class WritingFragment extends Fragment {
                 if(res){
                     //Log.println(Log.VERBOSE, "RESULT", "===== VRAI");
                     exo.setBonne(exo.getBonne() + 1);
+                    Toast.makeText(WritingFragment.this.getActivity().getApplicationContext(), "Réponse correcte", Toast.LENGTH_SHORT).show();
                 }else{
                     //Log.println(Log.VERBOSE, "RESULT", "===== FAUX");
                     exo.setMauvaise(exo.getMauvaise() + 1);
+                    Toast.makeText(WritingFragment.this.getActivity().getApplicationContext(), "Réponse fausse", Toast.LENGTH_SHORT).show();
                 }
                 exo.setTotale(exo.getTotale() + 1);
                 if(exo.getTotale()>=exo.getFin()){
                     activity.showScore();
                 }else{
-                    init();
+                    //init();
+                    submitWriting.setVisibility(View.INVISIBLE);
+                    nextWriting.setVisibility(View.VISIBLE);
+                    disableButton();
                 }
             }
         });
@@ -206,7 +215,42 @@ public class WritingFragment extends Fragment {
         if(outputZone.getChildCount() == 0){
             submitWriting.setVisibility(View.INVISIBLE);
         }
+        nextWriting.setVisibility(View.INVISIBLE);
+        nextWriting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WritingFragment.this.init();
+            }
+        });
     }
 
+    public void disableButton(){
+        for(int i = 0; i < outputZone.getChildCount(); i++){
+            View v = outputZone.getChildAt(i);
+            if(v instanceof Button){
+                Button b = (Button)v;
+                b.setOnClickListener(null);
+            }
+            //Log.println(Log.VERBOSE, "OUT", "==="+b.getText());
+        }
+        for(int i = 0; i < typingZone.getChildCount(); i++){
+            View v = typingZone.getChildAt(i);
+            LinearLayout ll = null;
+            if(v instanceof LinearLayout){
+                ll = (LinearLayout) typingZone.getChildAt(i);
+            }
+            if(ll != null){
+                for(int j = 0; j< ll.getChildCount(); j++){
+                    View vb = ll.getChildAt(j);
+                    if(vb instanceof Button){
+                        Button b = (Button) vb;
+                        b.setOnClickListener(null);
+                    }
+                    //Button b = (Button)typingZone.getChildAt(i);
+                    //Log.println(Log.VERBOSE, "IN", "==="+b.getText());
+                }
+            }
+        }
+    }
 
 }

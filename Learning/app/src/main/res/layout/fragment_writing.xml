@@ -9,11 +9,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="259dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
             android:orientation="horizontal">
 
             <TextView
@@ -30,13 +33,15 @@
         <LinearLayout
             android:id="@+id/outputZone"
             android:layout_width="match_parent"
-            android:layout_height="76dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
             android:orientation="horizontal" />
 
         <LinearLayout
             android:id="@+id/typingZone"
             android:layout_width="match_parent"
-            android:layout_height="164dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingLeft="50dp"
@@ -44,18 +49,35 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <Button
                 android:id="@+id/submitWriting"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.1"
                 android:text="Valider"
                 android:visibility="invisible"
                 app:backgroundTint="#009688" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/nextWriting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:text="Continuer" />
         </LinearLayout>
 
     </LinearLayout>
